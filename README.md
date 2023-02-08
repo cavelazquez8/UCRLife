@@ -1,4 +1,4 @@
-# UCR Marketplace
+# UCRLife
 A web application for UCR students to buy and sell products within the community. 
 
 ## Technologies Used
