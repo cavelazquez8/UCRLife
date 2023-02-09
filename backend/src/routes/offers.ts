@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.get("/", OffersController.getOffers);
 
-router.post("/", OffersController.createOffer)
+router.get("/:offerId", OffersController.getOffer);
+
+router.post("/", OffersController.createOffer);
 
 export default router;
