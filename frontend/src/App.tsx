@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState }from 'react';
 import './App.css';
+import {Offer} from "./models/offers"
 
 function App() {
+  const [offers, setOffers] = useState<Offer[]>([])
+
+  useEffect(() => {
+    async function loadOffers(){
+      try {
+        const response = await fetch("/api/offers", {method: "GET"});
+        const offers = await response.json();
+        setOffers(offers);
+      } catch (error) {
+        console.error(error);
+        alert(error);
+      }
+      
+    }
+    loadOffers();
+      
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          test
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {JSON.stringify(offers)}
     </div>
   );
 }
