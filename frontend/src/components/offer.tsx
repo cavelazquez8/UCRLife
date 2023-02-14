@@ -29,9 +29,10 @@ const Offer = ({ offer, className }: OfferProps) => {
 
         return (
             <Card className={`${styles.offerCard} ${className}`}>
+             <Card.Img className={styles.cardImg} variant="top" src="https://via.placeholder.com/150" />
                 <Card.Body className={styles.cardBody}>
                     <Card.Title>
-                        {title}
+                    {title} &nbsp; ${price}
                     </Card.Title>
                     <Card.Text className={styles.cardText}>
                         {description}
