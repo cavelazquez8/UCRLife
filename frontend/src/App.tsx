@@ -1,9 +1,9 @@
 import React, { useEffect, useState }from 'react';
-import './App.css';
-import {Offer} from "./models/offers"
+import Offer from './components/offer';
+import {Offer as OfferModel} from "./models/offers"
 
 function App() {
-  const [offers, setOffers] = useState<Offer[]>([])
+  const [offers, setOffers] = useState<OfferModel[]>([])
 
   useEffect(() => {
     async function loadOffers(){
@@ -22,8 +22,10 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      {JSON.stringify(offers)}
+    <div>
+      {offers.map(offer => (
+        <Offer offer={offer} key={offer._id} />
+      ))}
     </div>
   );
 }
