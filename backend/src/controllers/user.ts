@@ -30,6 +30,15 @@ export const usersignup: RequestHandler<unknown,unknown, userSignUp, unknown> = 
         if(existingEmail){
             throw createHttpError(409, "Email already used. Please use another email.");
         }
+
+        //const hashPassword = await bcrypt.hash(password,10);
+
+        const newUser = await UserModel.create({
+            username: username,
+            email: email,
+            password: password
+        });
+        res.status(201).json(newUser);
     }
     catch(error){
         next(error);
