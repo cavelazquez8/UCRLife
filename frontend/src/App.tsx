@@ -1,6 +1,10 @@
 import React, { useEffect, useState }from 'react';
+import Col from 'react-bootstrap/esm/Col';
+import Container from 'react-bootstrap/esm/Container';
+import Row from 'react-bootstrap/esm/Row';
 import Offer from './components/offer';
 import {Offer as OfferModel} from "./models/offers"
+import styles from "./styles/OfferPage.module.css"
 
 function App() {
   const [offers, setOffers] = useState<OfferModel[]>([])
@@ -22,11 +26,15 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <Container>
+      <Row xs={1} md={2} xl={4} className="g-4">
       {offers.map(offer => (
-        <Offer offer={offer} key={offer._id} />
+        <Col key={offer._id}>
+        <Offer offer={offer} className={styles.offer} />
+        </Col>
       ))}
-    </div>
+      </Row>
+    </Container>
   );
 }
 
