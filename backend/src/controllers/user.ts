@@ -1,10 +1,27 @@
 import {RequestHandler} from "express";
 import createHttpError from "http-errors";
 import UserModel from "../models/user";
+import bcrypt from "bcrypt";
+
+export const getVerifiedUser: RequestHandler = async (req,res,next)=>{
+    const verifiedUser = req.session.userID;
+
+    try{
+        if(!verifiedUser){
+            throw createHttpError(401, "No user logged in");
+        }
+
+        const loggedUser = await UserModel.findById(verifiedUser).select("+email").exec();
+        res.status(200).json(loggedUser);
+    }
+    catch(error){
+        next(error);
+    }
+}
 
 interface userSignUp{
     username?: string,
-    firstName?: string,
+    //firstName?: string,
     email?: string,
     password?: string,
 }
@@ -17,7 +34,7 @@ export const usersignup: RequestHandler<unknown,unknown, userSignUp, unknown> = 
 
     try{
         if(!username || !email || !password){
-            throw createHttpError(400, "Parameters missing");
+            throw createHttpError(400, "Please enter username, email, or password");
         }
         const existingUsername = await UserModel.findOne({username: username}).exec();
         
@@ -31,16 +48,50 @@ export const usersignup: RequestHandler<unknown,unknown, userSignUp, unknown> = 
             throw createHttpError(409, "Email already used. Please use another email.");
         }
 
-        //const hashPassword = await bcrypt.hash(password,10);
+        const hashPassword = await bcrypt.hash(password,10);
 
         const newUser = await UserModel.create({
             username: username,
             email: email,
-            password: password
+            password: hashPassword
         });
+
+        req.session.userID = newUser._id;
         res.status(201).json(newUser);
     }
     catch(error){
         next(error);
     }
 };  
+
+interface loginBody{
+    email: string,
+    password: string,
+}
+
+export const login: RequestHandler<unknown,unknown, loginBody, unknown> = async (req,res,next) =>{
+    const emailEnterd = req.body.email;
+    const passwordEntered = req.body.password;
+
+    try{
+        if(!passwordEntered || !emailEnterd){
+            throw createHttpError(400, "Missing email or password");
+        }
+
+        const validUser = await UserModel.findOne({email: emailEnterd}).select("+password +email").exec();
+        if(!validUser){
+            throw createHttpError(401,"Invalid email or password");
+        }
+
+        const samePassword = await bcrypt.compare(passwordEntered,validUser.password);
+        if(!samePassword){
+            throw createHttpError(401,"Invalid password");
+        }
+
+        req.session.userID = validUser._id;
+        res.status(201).json(validUser);
+    }
+    catch(error){
+        next(error);
+    }
+}
