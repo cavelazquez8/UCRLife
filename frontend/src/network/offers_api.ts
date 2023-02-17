@@ -33,3 +33,20 @@ export async function createOffer(note: OfferInput): Promise<Offer> {
         });
     return response.json();
 }
+
+export async function updateOffer(offerId: string, offer: OfferInput): Promise<Offer> {
+    const response = await fetchData("/api/offers/" + offerId,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(offer),
+        });
+    return response.json();
+}
+
+
+export async function deleteOffer(offerId: string) {
+    await fetchData("/api/offers/" + offerId, { method: "DELETE" });
+}

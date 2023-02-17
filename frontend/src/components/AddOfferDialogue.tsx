@@ -6,19 +6,30 @@ import { Offer } from "../models/offers";
 
 
 interface AddOfferDialogProps {
+    offerToEdit?: Offer,
     onDismiss: () => void,
     onOfferSaved: (offer: Offer) => void,
 }
 
-const AddOfferDialogue = ({onDismiss, onOfferSaved }: AddOfferDialogProps) => {
+const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialogProps) => {
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OfferInput>();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OfferInput>({
+        defaultValues: {
+            title: offerToEdit?.title || "",
+            price: offerToEdit?.price || 0,
+            description: offerToEdit?.description || "",
+        }
+    });
 
     async function onSubmit(input: OfferInput) {
         try {
-           
-            const Response = await OffersApi.createOffer(input);
-            onOfferSaved(Response);
+            let offerResponse: Offer;
+            if (offerToEdit) {
+                offerResponse = await OffersApi.updateOffer(offerToEdit._id, input);
+            } else {
+                offerResponse = await OffersApi.createOffer(input);
+            }
+            onOfferSaved(offerResponse);
         } catch (error) {
             console.error(error);
             alert(error);
@@ -29,7 +40,7 @@ const AddOfferDialogue = ({onDismiss, onOfferSaved }: AddOfferDialogProps) => {
         <Modal show onHide={onDismiss}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    Add Offer
+                {offerToEdit ? "Edit offer" : "Add offer"}
                 </Modal.Title>
             </Modal.Header>
 
