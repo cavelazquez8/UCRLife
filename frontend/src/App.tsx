@@ -9,6 +9,7 @@ import styleUtils from "./styles/utils.module.css"
 import * as OffersApi from "./network/offers_api";
 import AddOfferDialogue from './components/AddOfferDialogue';
 import { Button } from 'react-bootstrap';
+import SignUpModel from './components/SignUpModel';
 
 function App() {
   const [offers, setOffers] = useState<OfferModel[]>([])
@@ -77,6 +78,13 @@ function App() {
         setOfferToEdit(null);
       }}
       />
+      }
+      {
+        true &&
+        <SignUpModel
+            onDismiss={()=>{}}
+            onSuccessSignUp={()=>{}}
+        />
       }
 
     </Container>
