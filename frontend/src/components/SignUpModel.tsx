@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form"; 
 import {User} from "../models/user";
-import { SignUpInfo } from "../network/user_api";
+import { SignUpData } from "../network/user_api";
 import * as UserApi from "../network/user_api";
 import { Button, Form, Modal } from "react-bootstrap";
 import TextInput from "./form/TextInput";
@@ -12,12 +12,10 @@ interface SignUpComponent{
 }
 
 const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
-
-    const {register, handleSubmit,formState: {errors, isSubmitting}} = useForm<SignUpInfo>();
-
-    async function onSubmit(newUserInfo:SignUpInfo) {
+    const {register, handleSubmit,formState: {errors,isSubmitting}} = useForm<SignUpData>();
+    async function onSubmit(newUserInfo:SignUpData) {
         try{
-            const newUser = await UserApi.SignUp(newUserInfo);
+            const newUser = await UserApi.SignUpInfo(newUserInfo);
             onSuccessSignUp(newUser);
         }
         catch(error){
@@ -41,8 +39,7 @@ const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
                         placeholder = "Username"
                         register = {register}
                         registerOptions = {{required: "Required"}}
-                        error = {errors.username}
-                        
+                        //error={errors.username}
                     />
                     <TextInput
                         name = "email"
@@ -51,7 +48,7 @@ const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
                         placeholder = "Email"
                         register = {register}
                         registerOptions = {{required: "Required"}}
-                        error={errors.email}
+                        //error={errors.email}
                     />
                     <TextInput
                         name = "password"
@@ -60,7 +57,7 @@ const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
                         placeholder = "Password"
                         register = {register}
                         registerOptions = {{required: "Required"}}
-                        error={errors.password}
+                        //error={errors.password}
                     />
                     <Button
                         type = "submit"
