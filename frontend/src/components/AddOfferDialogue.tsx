@@ -19,6 +19,7 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
             title: offerToEdit?.title || "",
             price: offerToEdit?.price || 0,
             description: offerToEdit?.description || "",
+            imgURL: offerToEdit?.imgURL || "",
         }
     });
 
@@ -56,6 +57,15 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
                         register={register}
                         registerOptions={{ required: "Required" }}
                         error={errors.title}
+                    />
+
+                <TextInput
+                        name="imgURL"
+                        label="image URL"
+                        as="textarea"
+                        rows={5}
+                        placeholder="URL"
+                        register={register}
                     />
 
                     <Form.Group className = "mb-3">

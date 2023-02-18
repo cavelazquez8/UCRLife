@@ -18,6 +18,7 @@ const Offer = ({ offer, onDeleteOfferClicked, onOfferClicked, className }: Offer
     const {
         title,
         description,
+        imgURL,
         price,
         createdAt,
         updatedAt,
@@ -34,7 +35,7 @@ const Offer = ({ offer, onDeleteOfferClicked, onOfferClicked, className }: Offer
         return (
             <Card className={`${styles.offerCard} ${className}`}
             onClick={() => onOfferClicked(offer)}>
-             <Card.Img className={styles.cardImg} variant="top" src="https://via.placeholder.com/150" />
+             <Card.Img className={styles.cardImg} variant="top" src={imgURL} />
                 <Card.Body className={styles.cardBody}>
                     <Card.Title className={styleUtils.flexCenter}>
                     {title} &nbsp; ${price}

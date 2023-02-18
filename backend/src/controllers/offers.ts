@@ -37,6 +37,7 @@ export const getOffer: RequestHandler = async (req, res, next) => {
 interface CreateOfferBody {
     title?: string,
     description?: string,
+    imgURL?: string,
     price?: number,
     category?: string,
 }
@@ -44,6 +45,7 @@ interface CreateOfferBody {
 export const createOffer: RequestHandler<unknown, unknown, CreateOfferBody, unknown> = async (req, res, next) => {
     const title = req.body.title;
     const description = req.body.description;
+    const imgURL = req.body.imgURL;
     const price = req.body.price;
     const category = req.body.category;
 
@@ -60,6 +62,7 @@ export const createOffer: RequestHandler<unknown, unknown, CreateOfferBody, unkn
         const newOffer = await offerModel.create({
             title: title,
             description: description,
+            imgURL: imgURL,
             price: price,
             category: category,
         })
@@ -78,6 +81,7 @@ interface UpdateOfferParams {
 interface UpdateOfferBody {
     title?: string,
     description?: string,
+    imgURL?: string,
     price: number,
     category: string,
 }
@@ -86,6 +90,7 @@ export const updateOffer: RequestHandler<UpdateOfferParams, unknown, UpdateOffer
     const offerId = req.params.offerId;
     const newTitle = req.body.title;
     const newDescription = req.body.description;
+    const newImgURL = req.body.imgURL;
     const newprice = req.body.price;
     const newcategory = req.body.category;
 
@@ -111,6 +116,7 @@ export const updateOffer: RequestHandler<UpdateOfferParams, unknown, UpdateOffer
 
         offer.title = newTitle;
         offer.description = newDescription;
+        offer.imgURL = newImgURL;
         offer.price = newprice;
 
         const updatedOffer = await offer.save();
