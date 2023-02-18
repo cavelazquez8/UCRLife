@@ -12,10 +12,12 @@ interface SignUpComponent{
 }
 
 const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
-    const {register, handleSubmit,formState: {errors,isSubmitting}} = useForm<SignUpInfo>();
+
+    const {register, handleSubmit,formState: {errors, isSubmitting}} = useForm<SignUpInfo>();
+
     async function onSubmit(newUserInfo:SignUpInfo) {
         try{
-            const newUser = await UserApi.SignUpInfo(newUserInfo);
+            const newUser = await UserApi.SignUp(newUserInfo);
             onSuccessSignUp(newUser);
         }
         catch(error){
@@ -39,7 +41,8 @@ const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
                         placeholder = "Username"
                         register = {register}
                         registerOptions = {{required: "Required"}}
-                        //error={errors.username}
+                        error = {errors.username}
+                        
                     />
                     <TextInput
                         name = "email"
@@ -48,7 +51,7 @@ const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
                         placeholder = "Email"
                         register = {register}
                         registerOptions = {{required: "Required"}}
-                        //error={errors.email}
+                        error={errors.email}
                     />
                     <TextInput
                         name = "password"
@@ -57,7 +60,7 @@ const SignUpModel = ({onDismiss,onSuccessSignUp}: SignUpComponent) => {
                         placeholder = "Password"
                         register = {register}
                         registerOptions = {{required: "Required"}}
-                        //error={errors.password}
+                        error={errors.password}
                     />
                     <Button
                         type = "submit"

@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import {UseFormRegister, RegisterOptions, FieldError} from "react-hook-form";
 
-export interface TextInputComponent{
+interface TextInputComponent{
     name: string,
     label: string,
     register: UseFormRegister<any>,
@@ -9,11 +9,12 @@ export interface TextInputComponent{
     error?: FieldError,
     [x: string]: any,
 }
-const TextInput = ({name, label,register, registerOptions,error, ...props}: TextInputComponent) =>{
+const TextInput = ({name, label, register, registerOptions, error, ...props}: TextInputComponent) =>{
     return(
         <Form.Group className="mb-3" controlId = {name + "-input"}>
             <Form.Label>{label}</Form.Label>
-            <Form.Control {...props}
+            <Form.Control 
+            {...props}
             {...register(name,registerOptions)}
             isInvalid = {!!error}
             />
