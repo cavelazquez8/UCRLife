@@ -16,13 +16,13 @@ export async function getLogIn():Promise<User> {
     return response.json();
 }
 
-export interface SignUpInfo{
-    username: string,
-    email: string,
-    password: string,
+export interface SignUpData{
+    username: String,
+    email: String,
+    password: String
 }
 
-export async function SignUp(newUserInfo:SignUpInfo): Promise<User>{
+export async function SignUpInfo(newUserInfo:SignUpData): Promise<User>{
     const response = await fetchData("/api/user/signup", 
         {
             method: "POST",
@@ -37,7 +37,7 @@ export async function SignUp(newUserInfo:SignUpInfo): Promise<User>{
 
 export interface LoginInfo{
     email: String,
-    password: String,
+    password: String
 }
 
 export async function userLogin(logInUser:LoginInfo): Promise<User>{
