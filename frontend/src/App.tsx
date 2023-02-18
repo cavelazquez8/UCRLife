@@ -15,6 +15,7 @@ function App() {
   const [offers, setOffers] = useState<OfferModel[]>([])
 
   const [showAddOfferDialoguel, setShowAddOfferDialogue] = useState(false);
+  const [showSignUpDialoguel, setShowSignUpDialogue] = useState(true);
   const [offerToEdit, setOfferToEdit] = useState<OfferModel | null>(null);
 
   useEffect(() => {
@@ -80,9 +81,9 @@ function App() {
       />
       }
       {
-        true &&
+        showSignUpDialoguel &&
         <SignUpModel
-            onDismiss={()=>{}}
+            onDismiss={()=> setShowSignUpDialogue(false)}
             onSuccessSignUp={()=>{}}
         />
       }

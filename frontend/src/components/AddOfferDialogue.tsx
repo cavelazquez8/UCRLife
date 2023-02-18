@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { OfferInput } from "../network/offers_api";
 import * as OffersApi from "../network/offers_api";
 import { Offer } from "../models/offers";
+import TextInput from "./form/TextInput";
 
 
 interface AddOfferDialogProps {
@@ -46,18 +47,16 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
 
             <Modal.Body>
                 <Form id="addOfferForm" onSubmit={handleSubmit(onSubmit)}>
-                    <Form.Group className = "mb-3">
-                        <Form.Label> Title </Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Title"
-                            isInvalid={!!errors.title}
-                            {...register("title", {required: "Required"})}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.title?.message}
-                        </Form.Control.Feedback>
-                    </Form.Group>
+
+                <TextInput
+                        name="title"
+                        label="Title"
+                        type="text"
+                        placeholder="Title"
+                        register={register}
+                        registerOptions={{ required: "Required" }}
+                        error={errors.title}
+                    />
 
                     <Form.Group className = "mb-3">
                         <Form.Label> Price </Form.Label>

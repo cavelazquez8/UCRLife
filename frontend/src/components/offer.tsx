@@ -4,7 +4,6 @@ import { Offer as OfferModel } from "../models/offers";
 import { formatDate } from "../utils/formatDate";
 import { MdDelete } from "react-icons/md";
 import styleUtils from "../styles/utils.module.css"
-import { off } from "process";
 
 
 interface OfferProps {

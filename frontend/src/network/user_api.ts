@@ -17,12 +17,12 @@ export async function getLogIn():Promise<User> {
 }
 
 export interface SignUpInfo{
-    username: String,
-    email: String,
-    password: String
+    username: string,
+    email: string,
+    password: string,
 }
 
-export async function SignUpInfo(newUserInfo:SignUpInfo): Promise<User>{
+export async function SignUp(newUserInfo:SignUpInfo): Promise<User>{
     const response = await fetchData("/api/user/signup", 
         {
             method: "POST",
@@ -37,7 +37,7 @@ export async function SignUpInfo(newUserInfo:SignUpInfo): Promise<User>{
 
 export interface LoginInfo{
     email: String,
-    password: String
+    password: String,
 }
 
 export async function userLogin(logInUser:LoginInfo): Promise<User>{
