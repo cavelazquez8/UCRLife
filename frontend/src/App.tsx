@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import SignUpModel from './components/SignUpModel';
 import { useEffect,useState } from 'react';
 import {User} from './models/user'
+import Slider from './components/Slider';
 import * as UserApi from './network/user_api'
 import OfferPageLoggedInView from './components/OfferPageLoggedInView';
 import OfferPageLoggedOutView from './components/OfferPageLoggedOutView';
@@ -64,6 +65,7 @@ function App() {
           }}
         />
       }
+      <Slider/>
     </div>
   );
 }
