@@ -58,7 +58,7 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
                         registerOptions={{ required: "Required" }}
                         error={errors.title}
                     />
-
+                    
                 <TextInput
                         name="imgURL"
                         label="image URL"
