@@ -42,9 +42,9 @@ const LoginUserModel = ({onDismiss,onSuccessLogin}: LoginModelComponent) => {
                     placeholder = "Email"
                     register = {register}
                     registerOptions = {{required: "Required"}}
-                    //error = {errors.email}
+                    error = {errors.email}
                     />
-                </Form>
+                
                 <TextInput
                     name = "password"
                     label = "Password"
@@ -52,7 +52,7 @@ const LoginUserModel = ({onDismiss,onSuccessLogin}: LoginModelComponent) => {
                     placeholder = "Password"
                     register = {register}
                     registerOptions = {{required: "Required"}}
-                    //error={errors.password}
+                    error={errors.password}
                     />
 
                     <Button
@@ -61,6 +61,7 @@ const LoginUserModel = ({onDismiss,onSuccessLogin}: LoginModelComponent) => {
                         className = {style.width}>
                             Login
                     </Button>
+                </Form>
             </Modal.Body>
         </Modal>
         );
