@@ -4,6 +4,7 @@ import { OfferInput } from "../network/offers_api";
 import * as OffersApi from "../network/offers_api";
 import { Offer } from "../models/offers";
 import TextInput from "./form/TextInput";
+import { useState} from "react";
 
 
 interface AddOfferDialogProps {
@@ -14,12 +15,17 @@ interface AddOfferDialogProps {
 
 const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialogProps) => {
 
+    let url: string;
+    const [imageUpload, setImageUpload] = useState(null);
+
+    url = "https://via.placeholder.com/150";
+
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OfferInput>({
         defaultValues: {
             title: offerToEdit?.title || "",
             price: offerToEdit?.price || 0,
             description: offerToEdit?.description || "",
-            imgURL: offerToEdit?.imgURL || "",
+            imgURL: offerToEdit?.imgURL || url,
         }
     });
 
@@ -58,13 +64,19 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
                         registerOptions={{ required: "Required" }}
                         error={errors.title}
                     />
+
+                <Form.Group>
+                    <Form.Label> Upload Image &nbsp; </Form.Label>
+                        <input type="file" 
+                          />
+                </Form.Group>
                     
                 <TextInput
                         name="imgURL"
-                        label="image URL"
-                        as="textarea"
-                        rows={5}
-                        placeholder="URL"
+                        label=""
+                        //as="textarea"
+                        //rows={5}
+                        //placeholder="URL"
                         register={register}
                     />
 
