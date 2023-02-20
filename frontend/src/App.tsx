@@ -65,7 +65,7 @@ function App() {
           }}
         />
       }
-      <Slider/>
+      {showLoginModel && <Slider />}
     </div>
   );
 }
