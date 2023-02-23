@@ -1,6 +1,8 @@
 import { Offer } from '../models/offers';
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
+	console.log(input);
+	console.log(init);
 	const response = await fetch(input, init);
 	if (response.ok) {
 		return response;
@@ -49,9 +51,11 @@ export async function updateOffer(
 }
 
 export async function searchOffer(keyword: string): Promise<Offer[]> {
-	const response = await fetchData('/api/offers/search' + keyword, {
+	const response = await fetchData('/api/offers/search?keyword=' + keyword, {
 		method: 'GET',
 	});
+	console.log(response);
+
 	return response.json();
 }
 

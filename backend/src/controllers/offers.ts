@@ -1,10 +1,12 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
+import offer from '../models/offer';
 import offerModel from '../models/offer';
-
+// offerModel.createIndexes({title:"text"});
 export const getOffers: RequestHandler = async (req, res, next) => {
 	try {
+		console.log('GetOffer');
 		const offers = await offerModel.find().exec();
 		res.status(200).json(offers);
 	} catch (error) {
@@ -76,6 +78,10 @@ export const createOffer: RequestHandler<
 
 interface UpdateOfferParams {
 	offerId: string;
+}
+
+interface SearchParams {
+	keyword: string;
 }
 
 interface UpdateOfferBody {
@@ -153,16 +159,35 @@ export const deleteOffer: RequestHandler = async (req, res, next) => {
 	}
 };
 
-export const searchOffer: RequestHandler = async (req, res) => {
-	const { keyword } = req.query;
+export const searchOffer: RequestHandler = async (req, res, next) => {
+	// const { keyword } = req.query;
+	// const keyword = req.query.keyword;
+	// console.log(keyword);
+	// const offer = await offerModel
+	// 	.find({ $or: [{ title: { $regex: keyword, $option: 'i' } }] })
+	// 	.exec();
+	// console.log(offer);
+	// if (!offer) {
+	// 	throw createHttpError(404, 'offer not found');
+	// }
 
-	const offer = await offerModel
-		.find({ $or: [{ title: { $regex: keyword } }] })
-		.exec();
-	console.log(offer);
-	if (!offer) {
-		throw createHttpError(404, 'offer not found');
+	// res.status(200).json(offer);
+
+	try {
+		const keyword = req.query.keyword;
+		console.log('keyword: ' + keyword);
+
+		// await offerModel.init();
+		// const offers = await offerModel.find().exec();
+		const offers = await offerModel.find({
+			$text: { $search: `"${keyword}"` },
+		});
+		// const offers = await offerModel.find({
+		// 	{ title: "Scooter"},
+		// });
+
+		res.status(200).json(offers);
+	} catch (error) {
+		next(error);
 	}
-
-	res.status(200).json(offer);
 };

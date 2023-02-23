@@ -8,12 +8,14 @@ import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
 import styleUtils from '../styles/utils.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const OfferPageLoggedInView = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
 	const [showAddOfferDialoguel, setShowAddOfferDialogue] = useState(false);
 	const [offerToEdit, setOfferToEdit] = useState<OfferModel | null>(null);
 	const [searchTerm, setSearchTerm] = useState('');
+	// const navigate = useNavigate();
 
 	useEffect(() => {
 		async function loadOffers() {
@@ -43,6 +45,7 @@ const OfferPageLoggedInView = () => {
 	const getOfferLists = async () => {
 		try {
 			const offers = await OffersApi.searchOffer(searchTerm);
+			console.log(offers);
 			setOffers(offers);
 		} catch (error) {
 			console.error(error);
@@ -55,6 +58,7 @@ const OfferPageLoggedInView = () => {
 		getOfferLists();
 		console.log('Search Handler Works');
 		console.log(searchTerm);
+		// navigate('/api/notes/search?title=' + searchTerm);
 	};
 	return (
 		<>
