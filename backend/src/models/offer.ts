@@ -9,6 +9,7 @@ const offerSchema = new Schema({
         type: String,
         enum: ['books', 'electronics', 'supplies', 'miscellaneous']
     },
+    user: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
 type Offer = InferSchemaType<typeof offerSchema>;
