@@ -25,13 +25,13 @@ export interface OfferInput {
 	price: number;
 }
 
-export async function createOffer(note: OfferInput): Promise<Offer> {
+export async function createOffer(offer: OfferInput): Promise<Offer> {
 	const response = await fetchData('/api/offers', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(note),
+		body: JSON.stringify(offer),
 	});
 	return response.json();
 }
