@@ -5,6 +5,9 @@ import * as OffersApi from "../network/offers_api";
 import { Offer } from "../models/offers";
 import TextInput from "./form/TextInput";
 import { useState} from "react";
+import { storage } from "./firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+//import { Card, Input, List, message, Image, Progress } from 'antd'
 
 
 interface AddOfferDialogProps {
@@ -14,24 +17,66 @@ interface AddOfferDialogProps {
 }
 
 const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialogProps) => {
+    const [file, setFile] = useState<File | null>(null);
+    const [imageUrl, setImageUrl] = useState('')
+    const [messg, setMessg] = useState('')
+    const [progressUpload, setProgressUpload] = useState(0)
 
-    let url: string;
-    const [imageUpload, setImageUpload] = useState(null);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files && files.length > 0) {
+          setFile(files[0]);
+        }
+      };
 
-    url = "https://via.placeholder.com/150";
+      const handleUploadFile = () => {
+        if(file)
+            {
+                const name = new Date().getTime() + file.name
+                const storageRef = ref(storage, `image/${name}`)
+                const uploadTask = uploadBytesResumable(storageRef, file)
+                uploadTask.on('state_changed', (snapshot) => {
+                      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            
+                      setProgressUpload(progress) // to show progress upload
+                      setMessg("Uploading...")
+            
+                      switch (snapshot.state) {
+                        case 'paused':
+                          console.log('Upload is paused')
+                          break
+                        case 'running':
+                          console.log('Upload is running')
+                          console.log({progressUpload})
+                          break
+                      }
+                    }, (error) => {}, () => 
+                    {
+                      getDownloadURL(uploadTask.snapshot.ref).then((url) => 
+                      {
+                        //url is download url of file
+                        setImageUrl(url)
+                        setMessg("Image uploaded")
+                      })
+                    },
+                  )
+            } 
+      }
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OfferInput>({
         defaultValues: {
             title: offerToEdit?.title || "",
             price: offerToEdit?.price || 0,
             description: offerToEdit?.description || "",
-            imgURL: offerToEdit?.imgURL || url,
+            imgURL: offerToEdit?.imgURL || "",
         }
     });
 
     async function onSubmit(input: OfferInput) {
         try {
             let offerResponse: Offer;
+            input.imgURL = imageUrl;
+
             if (offerToEdit) {
                 offerResponse = await OffersApi.updateOffer(offerToEdit._id, input);
             } else {
@@ -68,17 +113,11 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
                 <Form.Group>
                     <Form.Label> Upload Image &nbsp; </Form.Label>
                         <input type="file" 
+                        onChange={handleFileChange}
                           />
+                          <Button onClick={handleUploadFile}> Upload </Button>
+                          <p>{messg}</p>
                 </Form.Group>
-                    
-                <TextInput
-                        name="imgURL"
-                        label=""
-                        //as="textarea"
-                        //rows={5}
-                        //placeholder="URL"
-                        register={register}
-                    />
 
                     <Form.Group className = "mb-3">
                         <Form.Label> Price </Form.Label>
