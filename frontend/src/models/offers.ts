@@ -4,6 +4,7 @@ export interface Offer {
     description?: string,
     imgURL?: string,
     price: number,
+    categogry?: string,
     createdAt: string,
     updatedAt: string,
 }

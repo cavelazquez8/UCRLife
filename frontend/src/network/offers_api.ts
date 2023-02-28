@@ -23,6 +23,7 @@ export interface OfferInput {
 	description?: string;
 	imgURL?: string;
 	price: number;
+	category?: string;
 }
 
 export async function createOffer(offer: OfferInput): Promise<Offer> {
