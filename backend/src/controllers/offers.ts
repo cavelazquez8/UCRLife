@@ -40,6 +40,8 @@ interface CreateOfferBody {
     imgURL?: string,
     price?: number,
     category?: string,
+    user?:string,
+
 }
 
 export const createOffer: RequestHandler<unknown, unknown, CreateOfferBody, unknown> = async (req, res, next) => {
@@ -48,6 +50,9 @@ export const createOffer: RequestHandler<unknown, unknown, CreateOfferBody, unkn
     const imgURL = req.body.imgURL;
     const price = req.body.price;
     const category = req.body.category;
+    const user  = req.body.user; // Get the user ID from the authenticated user object
+
+
 
     try {
 
@@ -65,6 +70,7 @@ export const createOffer: RequestHandler<unknown, unknown, CreateOfferBody, unkn
             imgURL: imgURL,
             price: price,
             category: category,
+            user: user,
         })
         res.status(201).json(newOffer);
         
@@ -76,6 +82,7 @@ export const createOffer: RequestHandler<unknown, unknown, CreateOfferBody, unkn
 
 interface UpdateOfferParams {
     offerId: string,
+    userId: string,
 }
 
 interface UpdateOfferBody {
@@ -88,11 +95,13 @@ interface UpdateOfferBody {
 
 export const updateOffer: RequestHandler<UpdateOfferParams, unknown, UpdateOfferBody, unknown> = async (req, res, next) => {
     const offerId = req.params.offerId;
+    const userId = req.params.userId;
     const newTitle = req.body.title;
     const newDescription = req.body.description;
     const newImgURL = req.body.imgURL;
     const newprice = req.body.price;
     const newcategory = req.body.category;
+  
 
     try {
 
@@ -113,6 +122,9 @@ export const updateOffer: RequestHandler<UpdateOfferParams, unknown, UpdateOffer
         if (!offer) {
             throw createHttpError(404, "offer not found");
         }
+        if (offer.user && offer.user.toString() !== userId.toString()) {
+            throw createHttpError(401, "Unauthorized");
+        }
 
         offer.title = newTitle;
         offer.description = newDescription;
@@ -130,7 +142,7 @@ export const updateOffer: RequestHandler<UpdateOfferParams, unknown, UpdateOffer
 
 export const deleteOffer: RequestHandler = async (req, res, next) => {
     const offerId = req.params.offerId;
-
+    const userId = req.params.userId;
     try {
 
         if (!mongoose.isValidObjectId(offerId)) {
@@ -141,6 +153,9 @@ export const deleteOffer: RequestHandler = async (req, res, next) => {
 
         if (!offer) {
             throw createHttpError(404, "Offer not found");
+        }
+        if (offer.user && offer.user.toString() !== userId.toString()) {
+            throw createHttpError(401, "Unauthorized");
         }
 
         await offer.remove();
