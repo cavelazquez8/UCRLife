@@ -7,7 +7,6 @@ import TextInput from "./form/TextInput";
 import { useState} from "react";
 import { storage } from "./firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-//import { Card, Input, List, message, Image, Progress } from 'antd'
 
 
 interface AddOfferDialogProps {
@@ -21,6 +20,7 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
     const [imageUrl, setImageUrl] = useState('')
     const [messg, setMessg] = useState('')
     const [progressUpload, setProgressUpload] = useState(0)
+    const [category, setCategory] = useState('');
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -66,9 +66,10 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OfferInput>({
         defaultValues: {
             title: offerToEdit?.title || "",
-            price: offerToEdit?.price || 0,
+            price: offerToEdit?.price || undefined,
             description: offerToEdit?.description || "",
             imgURL: offerToEdit?.imgURL || "",
+            category: offerToEdit?.categogry || "",
         }
     });
 
@@ -76,6 +77,7 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
         try {
             let offerResponse: Offer;
             input.imgURL = imageUrl;
+            input.category = category;
 
             if (offerToEdit) {
                 offerResponse = await OffersApi.updateOffer(offerToEdit._id, input);
@@ -130,6 +132,19 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
                         <Form.Control.Feedback type="invalid">
                             {errors.price?.message}
                         </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                    <label>
+                        Category:&nbsp;
+                            <select value={category} onChange={(event) => setCategory(event.target.value)}>
+                            <option value="">Select a category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="books">Books</option>
+                            <option value="transport">Transport</option>
+                            <option value="misc">Misc</option>
+                            </select>
+                    </label>
                     </Form.Group>
 
                     <Form.Group className="mb-3">

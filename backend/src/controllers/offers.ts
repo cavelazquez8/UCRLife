@@ -128,6 +128,7 @@ export const updateOffer: RequestHandler<
 		offer.description = newDescription;
 		offer.imgURL = newImgURL;
 		offer.price = newprice;
+		offer.category = newcategory;
 
 		const updatedOffer = await offer.save();
 

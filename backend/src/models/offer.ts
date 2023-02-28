@@ -5,10 +5,7 @@ const offerSchema = new Schema({
     description: { type: String },
     imgURL: { type: String },
     price: { type : Number, required : true },
-    category: {
-        type: String,
-        enum: ['books', 'electronics', 'supplies', 'miscellaneous']
-    },
+    category: {type: String,},
 }, { timestamps: true });
 
 type Offer = InferSchemaType<typeof offerSchema>;
