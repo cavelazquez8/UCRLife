@@ -13,8 +13,6 @@ const OfferPageLoggedInView = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
 	const [showAddOfferDialoguel, setShowAddOfferDialogue] = useState(false);
 	const [offerToEdit, setOfferToEdit] = useState<OfferModel | null>(null);
-	const [searchTerm, setSearchTerm] = useState('');
-	// const navigate = useNavigate();
 
 	useEffect(() => {
 		async function loadOffers() {
@@ -41,24 +39,6 @@ const OfferPageLoggedInView = () => {
 		}
 	}
 
-	const getOfferLists = async () => {
-		try {
-			const offers = await OffersApi.searchOffer(searchTerm);
-			console.log(offers);
-			setOffers(offers);
-		} catch (error) {
-			console.error(error);
-			alert(error);
-		}
-	};
-
-	const searchHandler = () => {
-		if (searchTerm === '') return;
-		getOfferLists();
-		console.log('Search Handler Works');
-		console.log(searchTerm);
-		// navigate('/api/notes/search?title=' + searchTerm);
-	};
 	return (
 		<>
 			<Button
@@ -67,27 +47,6 @@ const OfferPageLoggedInView = () => {
 			>
 				Add New Offer
 			</Button>
-			<input
-				type='search'
-				value={searchTerm}
-				name='keyword'
-				placeholder='Search an item'
-				onChange={(e) => setSearchTerm(e.currentTarget.value)}
-				onKeyDown={(e) => {
-					if (e.keyCode === 13) searchHandler();
-				}}
-			/>
-
-					<label>
-					&nbsp;Category:&nbsp;
-                            <select value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}>
-                            <option value="">Select a category</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="books">Books</option>
-                            <option value="transport">Transport</option>
-                            <option value="misc">Misc</option>
-                            </select>
-                    </label>
 
 			<Row xs={1} md={2} xl={4} className='g-4'>
 				{offers.map((offer) => (
