@@ -13,8 +13,13 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
 	}
 }
 
-export async function fetchOffers(): Promise<Offer[]> {
+export async function fetchUserOffers(): Promise<Offer[]> {
 	const response = await fetchData('/api/offers', { method: 'GET' });
+	return response.json();
+}
+
+export async function fetchAllOffers(): Promise<Offer[]> {
+	const response = await fetchData('/api/offers/all', { method: 'GET' });
 	return response.json();
 }
 
