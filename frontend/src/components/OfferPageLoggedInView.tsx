@@ -10,6 +10,7 @@ const OfferPageLoggedInView = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
 	const [offerToEdit, setOfferToEdit] = useState<OfferModel | null>(null);
 	const [searchTerm, setSearchTerm] = useState('');
+	const [category, setCategory] = useState('');
 
 	useEffect(() => {
 		async function loadOffers() {
@@ -40,9 +41,21 @@ const OfferPageLoggedInView = () => {
 	const searchHandler = () => {
 		if (searchTerm === '') return;
 		getOfferLists();
-		console.log('Search Handler Works');
-		console.log(searchTerm);
 	};
+
+	  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		event.persist();
+		const newQuery = event.target.value;
+		console.log('target value:');
+		console.log(event.target.value);
+		console.log('setting category');
+		setCategory(newQuery);
+		console.log('category:');
+		//console.log(newQuery);
+		console.log(category);
+		searchHandler();
+	  };
+
 	return (
 		<>
 			<input
@@ -58,7 +71,7 @@ const OfferPageLoggedInView = () => {
 
 					<label>
 					&nbsp;Category:&nbsp;
-                            <select value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}>
+                            <select value={searchTerm} onChange={handleSelectChange}>
                             <option value="">Select a category</option>
                             <option value="electronics">Electronics</option>
                             <option value="books">Books</option>
