@@ -40,6 +40,7 @@ export const getOffer: RequestHandler = async (req, res, next) => {
 
 interface CreateOfferBody {
 	title?: string;
+	username?: string;
 	description?: string;
 	imgURL?: string;
 	price?: number;
@@ -53,6 +54,7 @@ export const createOffer: RequestHandler<
 	unknown
 > = async (req, res, next) => {
 	const title = req.body.title;
+	const username = req.body.username;
 	const description = req.body.description;
 	const imgURL = req.body.imgURL;
 	const price = req.body.price;
@@ -71,6 +73,7 @@ export const createOffer: RequestHandler<
 
 		const newOffer = await offerModel.create({
 			userId: loggedUserId,
+			username: username,
 			title: title,
 			description: description,
 			imgURL: imgURL,
@@ -93,6 +96,7 @@ interface SearchParams {
 
 interface UpdateOfferBody {
 	title?: string;
+	username?: string;
 	description?: string;
 	imgURL?: string;
 	price: number;
@@ -107,6 +111,7 @@ export const updateOffer: RequestHandler<
 > = async (req, res, next) => {
 	const offerId = req.params.offerId;
 	const newTitle = req.body.title;
+	const newUsername = req.body.username;
 	const newDescription = req.body.description;
 	const newImgURL = req.body.imgURL;
 	const newprice = req.body.price;
@@ -134,6 +139,7 @@ export const updateOffer: RequestHandler<
 		}
 
 		offer.title = newTitle;
+		offer.username = newUsername;
 		offer.description = newDescription;
 		offer.imgURL = newImgURL;
 		offer.price = newprice;
