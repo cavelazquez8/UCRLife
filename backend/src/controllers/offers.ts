@@ -3,15 +3,27 @@ import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
 import offerModel from '../models/offer';
 import { assertDefined } from '../util/assertDefined';
-// offerModel.createIndexes({title:"text"});
 
-export const getOffers: RequestHandler = async (req, res, next) => {
+export const getUserOffers: RequestHandler = async (req, res, next) => {
 
 	const loggedUserId = req.session.userID;
 	try {
 		assertDefined(loggedUserId);
 		console.log('GetOffer');
 		const offers = await offerModel.find({userId: loggedUserId}).exec();
+		res.status(200).json(offers);
+	} catch (error) {
+		next(error);
+	}
+};
+
+export const getAllOffers: RequestHandler = async (req, res, next) => {
+
+	const loggedUserId = req.session.userID;
+	try {
+		assertDefined(loggedUserId);
+		console.log('GetOffer');
+		const offers = await offerModel.find().exec();
 		res.status(200).json(offers);
 	} catch (error) {
 		next(error);
@@ -88,10 +100,6 @@ export const createOffer: RequestHandler<
 
 interface UpdateOfferParams {
 	offerId: string;
-}
-
-interface SearchParams {
-	keyword: string;
 }
 
 interface UpdateOfferBody {

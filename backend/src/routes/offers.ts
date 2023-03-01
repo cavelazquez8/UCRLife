@@ -3,7 +3,8 @@ import * as OffersController from '../controllers/offers';
 
 const router = express.Router();
 
-router.get('/', OffersController.getOffers);
+router.get('/', OffersController.getUserOffers);
+router.get('/all', OffersController.getAllOffers);
 router.get('/search', OffersController.searchOffer);
 router.get('/:offerId', OffersController.getOffer);
 router.post('/', OffersController.createOffer);

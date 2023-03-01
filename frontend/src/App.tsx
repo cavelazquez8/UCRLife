@@ -1,14 +1,17 @@
-import Container from 'react-bootstrap/esm/Container';
+import { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Categories from './components/Categories';
 import LoginUserModel from './components/LoginUserModel';
 import NavBar from './components/NavBar';
 import SignUpModel from './components/SignUpModel';
-import { useEffect, useState } from 'react';
-import { User } from './models/user';
 import Slider from './components/Slider';
-import Categories  from './components/Categories';
+import { User } from './models/user';
 import * as UserApi from './network/user_api';
-import OfferPageLoggedInView from './components/OfferPageLoggedInView';
-import OfferPageLoggedOutView from './components/OfferPageLoggedOutView';
+import NotFound from './pages/NotFound';
+import OffersPage from './pages/OffersPage';
+import UserOffersPage from './pages/UserOffers';
+import styles from "./styles/App.module.css";
 
 function App() {
 	const [userLoggedIn, setLoggedInUser] = useState<User | null>(null);
@@ -30,6 +33,7 @@ function App() {
 		
 	}, []);
 	return (
+		<BrowserRouter>
 		<div>
 			<NavBar
 				userLoggedIn={userLoggedIn}
@@ -37,15 +41,24 @@ function App() {
 				onLoginOption={() => setShowLoginModel(true)}
 				onLogoutOption={() => setLoggedInUser(null)}
 			/>
-			<Container>
-				<>
-					{userLoggedIn ? (
-						<OfferPageLoggedInView />
-					) : (
-						<OfferPageLoggedOutView />
-					)}
-				</>
+
+			<Container className={styles.pageContainer}>
+				<Routes>
+						<Route
+							path='/'
+							element={<OffersPage userLoggedIn={userLoggedIn} />}
+						/>
+						<Route
+							path='/myoffers'
+							element={<UserOffersPage />}
+						/>
+						<Route
+							path='/*'
+							element={<NotFound />}
+						/>
+				</Routes>
 			</Container>
+			
 			{showSignUpModel && (
 				<SignUpModel
 					onDismiss={() => setShowSignUpModel(false)}
@@ -69,6 +82,7 @@ function App() {
 			{beforeLogin && <Categories />}
 			{beforeLogin && <Slider />}
 		</div>
+		</BrowserRouter>
 	);
 }
 

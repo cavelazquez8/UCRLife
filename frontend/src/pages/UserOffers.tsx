@@ -19,7 +19,7 @@ const OfferPageLoggedInView = () => {
 	useEffect(() => {
 		async function loadOffers() {
 			try {
-				const offers = await OffersApi.fetchAllOffers();
+				const offers = await OffersApi.fetchUserOffers();
 				setOffers(offers);
 			} catch (error) {
 				console.error(error);
