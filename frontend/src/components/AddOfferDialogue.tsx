@@ -4,9 +4,11 @@ import { OfferInput } from "../network/offers_api";
 import * as OffersApi from "../network/offers_api";
 import { Offer } from "../models/offers";
 import TextInput from "./form/TextInput";
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import { storage } from "./firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import * as UserApi from '../network/user_api';
+import { User } from '../models/user';
 
 
 interface AddOfferDialogProps {
@@ -17,10 +19,25 @@ interface AddOfferDialogProps {
 
 const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialogProps) => {
     const [file, setFile] = useState<File | null>(null);
+    const [userLoggedIn, setLoggedInUser] = useState<User | null>(null);
     const [imageUrl, setImageUrl] = useState('')
     const [messg, setMessg] = useState('')
     const [progressUpload, setProgressUpload] = useState(0)
     const [category, setCategory] = useState('');
+
+    useEffect(() => {
+		async function fetchLoggedInUser() {
+			try {
+				const user = await UserApi.getLogIn();
+				setLoggedInUser(user);
+			} catch (error) {
+				console.error(error);
+			}
+			
+		}
+		fetchLoggedInUser();
+		
+	}, []);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -66,6 +83,7 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OfferInput>({
         defaultValues: {
             title: offerToEdit?.title || "",
+            username: offerToEdit?.username || "",
             price: offerToEdit?.price || undefined,
             description: offerToEdit?.description || "",
             imgURL: offerToEdit?.imgURL || "",
@@ -78,6 +96,7 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
             let offerResponse: Offer;
             input.imgURL = offerToEdit?.imgURL || imageUrl;
             input.category = offerToEdit?.categogry || category;
+            input.username = offerToEdit?.username || userLoggedIn?.username;
 
             if (offerToEdit) {
                 offerResponse = await OffersApi.updateOffer(offerToEdit._id, input);

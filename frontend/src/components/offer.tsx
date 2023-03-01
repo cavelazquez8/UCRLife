@@ -18,7 +18,7 @@ const Offer = ({
 	onOfferClicked,
 	className,
 }: OfferProps) => {
-	const { title, description, imgURL, price, createdAt, updatedAt } = offer;
+	const { title, username, description, imgURL, price, createdAt, updatedAt } = offer;
 
 	let createdUpdatedText: string;
 	if (updatedAt > createdAt) {
@@ -44,6 +44,7 @@ const Offer = ({
 						}}
 					/>
 				</Card.Title>
+				<Card.Subtitle className="mb-2 text-muted"> Created by:&nbsp;{username} </Card.Subtitle>
 				<Card.Text className={styles.cardText}>{description}</Card.Text>
 			</Card.Body>
 			<Card.Footer className='text-muted'>{createdUpdatedText}</Card.Footer>

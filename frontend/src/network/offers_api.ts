@@ -20,6 +20,7 @@ export async function fetchOffers(): Promise<Offer[]> {
 
 export interface OfferInput {
 	title: string;
+	username?: string;
 	description?: string;
 	imgURL?: string;
 	price: number;
