@@ -76,8 +76,8 @@ const AddOfferDialogue = ({offerToEdit, onDismiss, onOfferSaved }: AddOfferDialo
     async function onSubmit(input: OfferInput) {
         try {
             let offerResponse: Offer;
-            input.imgURL = imageUrl;
-            input.category = category;
+            input.imgURL = offerToEdit?.imgURL || imageUrl;
+            input.category = offerToEdit?.categogry || category;
 
             if (offerToEdit) {
                 offerResponse = await OffersApi.updateOffer(offerToEdit._id, input);

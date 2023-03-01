@@ -78,6 +78,18 @@ const OfferPageLoggedInView = () => {
 					if (e.keyCode === 13) searchHandler();
 				}}
 			/>
+
+					<label>
+					&nbsp;Category:&nbsp;
+                            <select value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}>
+                            <option value="">Select a category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="books">Books</option>
+                            <option value="transport">Transport</option>
+                            <option value="misc">Misc</option>
+                            </select>
+                    </label>
+
 			<Row xs={1} md={2} xl={4} className='g-4'>
 				{offers.map((offer) => (
 					<Col key={offer._id}>
