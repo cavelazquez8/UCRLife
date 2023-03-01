@@ -22,7 +22,7 @@ const NavBarLoggedInView = ({user,onLogout}:loggedInViewComponents)=>{
     return (
         <>
             <Navbar.Text className="me-2">
-                Signed in: {user.username}
+                Signed in: &nbsp; {user.username}
             </Navbar.Text>
             <Button onClick={logout}>Log Out</Button>
         </>

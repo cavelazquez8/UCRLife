@@ -7,10 +7,6 @@ export const getVerifiedUser: RequestHandler = async (req,res,next)=>{
     const verifiedUser = req.session.userID;
 
     try{
-        if(!verifiedUser){
-            throw createHttpError(401, "No user logged in");
-        }
-
         const loggedUser = await UserModel.findById(verifiedUser).select("+email").exec();
         res.status(200).json(loggedUser);
     }

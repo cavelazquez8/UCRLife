@@ -1,13 +1,17 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
-import offer from '../models/offer';
 import offerModel from '../models/offer';
+import { assertDefined } from '../util/assertDefined';
 // offerModel.createIndexes({title:"text"});
+
 export const getOffers: RequestHandler = async (req, res, next) => {
+
+	const loggedUserId = req.session.userID;
 	try {
+		assertDefined(loggedUserId);
 		console.log('GetOffer');
-		const offers = await offerModel.find().exec();
+		const offers = await offerModel.find({userId: loggedUserId}).exec();
 		res.status(200).json(offers);
 	} catch (error) {
 		next(error);
@@ -53,8 +57,10 @@ export const createOffer: RequestHandler<
 	const imgURL = req.body.imgURL;
 	const price = req.body.price;
 	const category = req.body.category;
+	const loggedUserId = req.session.userID;
 
 	try {
+		assertDefined(loggedUserId);
 		if (!title) {
 			throw createHttpError(400, 'Offer must have a title');
 		}
@@ -64,6 +70,7 @@ export const createOffer: RequestHandler<
 		}
 
 		const newOffer = await offerModel.create({
+			userId: loggedUserId,
 			title: title,
 			description: description,
 			imgURL: imgURL,
@@ -104,8 +111,10 @@ export const updateOffer: RequestHandler<
 	const newImgURL = req.body.imgURL;
 	const newprice = req.body.price;
 	const newcategory = req.body.category;
+	const loggedUserId = req.session.userID;
 
 	try {
+		assertDefined(loggedUserId);
 		if (!mongoose.isValidObjectId(offerId)) {
 			throw createHttpError(400, 'Invalid offer id');
 		}

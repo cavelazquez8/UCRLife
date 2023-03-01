@@ -24,8 +24,10 @@ function App() {
 			} catch (error) {
 				console.error(error);
 			}
-			fetchLoggedInUser();
+			
 		}
+		fetchLoggedInUser();
+		
 	}, []);
 	return (
 		<div>
