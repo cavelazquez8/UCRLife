@@ -79,8 +79,6 @@ function App() {
 					}}
 				/>
 			)}
-			{beforeLogin && <Categories />}
-			{beforeLogin && <Slider />}
 		</div>
 		</BrowserRouter>
 	);

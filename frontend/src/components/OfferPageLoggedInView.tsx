@@ -5,6 +5,7 @@ import Offer from '../components/offer';
 import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
+import Categories from './Categories';
 
 const OfferPageLoggedInView = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
@@ -92,6 +93,7 @@ const OfferPageLoggedInView = () => {
 					</Col>
 				))}
 			</Row>
+			<Categories/>
 		</>
 	);
 };
