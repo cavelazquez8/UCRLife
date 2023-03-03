@@ -5,12 +5,11 @@ import offerModel from '../models/offer';
 import { assertDefined } from '../util/assertDefined';
 
 export const getUserOffers: RequestHandler = async (req, res, next) => {
-
 	const loggedUserId = req.session.userID;
 	try {
 		assertDefined(loggedUserId);
 		console.log('GetOffer');
-		const offers = await offerModel.find({userId: loggedUserId}).exec();
+		const offers = await offerModel.find({ userId: loggedUserId }).exec();
 		res.status(200).json(offers);
 	} catch (error) {
 		next(error);
@@ -18,7 +17,6 @@ export const getUserOffers: RequestHandler = async (req, res, next) => {
 };
 
 export const getAllOffers: RequestHandler = async (req, res, next) => {
-
 	const loggedUserId = req.session.userID;
 	try {
 		assertDefined(loggedUserId);
@@ -111,12 +109,14 @@ interface UpdateOfferBody {
 	category: string;
 }
 
-export const updateOffer: RequestHandler<
-	UpdateOfferParams,
-	unknown,
-	UpdateOfferBody,
-	unknown
-> = async (req, res, next) => {
+// <
+// 	UpdateOfferParams,
+// 	unknown,
+// 	UpdateOfferBody,
+// 	unknown
+// >
+
+export const updateOffer: RequestHandler = async (req, res, next) => {
 	const offerId = req.params.offerId;
 	const newTitle = req.body.title;
 	const newUsername = req.body.username;
