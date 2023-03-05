@@ -43,19 +43,26 @@ const Button = styled.button`
 `;
 interface Item {
   img : string;
-  title: string
+  title: string;
   id: number; 
 }
+
 interface ItemProps {
   item: Item
+  onTextChange: (newText: string) => void;
 }
-const CategoryItem = ({item}:ItemProps) => {
+const CategoryItem = ({onTextChange, item}:ItemProps) => {
+
+  const handleClick = () => {
+    onTextChange(item.title);
+  }
+  
   return (
     <Container>
       <Image src={item.img} />
       <Info>
         <Title>{item.title}</Title>
-        <Button>SHOP NOW</Button>
+        <Button onClick={handleClick}>SHOP NOW</Button>
       </Info>
     </Container>
   );
