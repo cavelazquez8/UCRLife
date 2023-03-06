@@ -128,7 +128,12 @@ export const usersignup: RequestHandler<
 		}
 
 		const existingEmail = await UserModel.findOne({ email: email }).exec();
-
+		if (!email.endsWith('ucr.edu')) {
+			throw createHttpError(
+				409,
+				'Only email addresses ending with ucr.edu can sign up'
+			);
+		}
 		if (existingEmail) {
 			throw createHttpError(
 				409,
