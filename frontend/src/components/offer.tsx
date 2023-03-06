@@ -4,7 +4,7 @@ import { Offer as OfferModel } from '../models/offers';
 import { formatDate } from '../utils/formatDate';
 import { MdDelete } from 'react-icons/md';
 import styleUtils from '../styles/utils.module.css';
-
+import { AiFillMessage as MessengerIcon } from "react-icons/ai";
 interface OfferProps {
 	offer: OfferModel;
 	onOfferClicked: (note: OfferModel) => void;
@@ -43,6 +43,7 @@ const Offer = ({
 							e.stopPropagation();
 						}}
 					/>
+					<MessengerIcon/>
 				</Card.Title>
 				<Card.Subtitle className="mb-2 text-muted"> Created by:&nbsp;{username} </Card.Subtitle>
 				<Card.Text className={styles.cardText}>{description}</Card.Text>
