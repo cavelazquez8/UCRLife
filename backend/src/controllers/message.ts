@@ -1,11 +1,31 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-//import mongoose from "mongoose";
 import messageModel from "../models/message";
 import userModel from "../models/user";
 
-
 export const sendMessage: RequestHandler = async (req, res, next) => {
+  const newMessage = new messageModel(req.body);
+  try{
+    const saveMessage = await newMessage.save();
+    res.status(200).json(saveMessage);
+  }
+  catch(error){
+    next(error);
+  }
+}
+
+export const getMessages: RequestHandler = async (req, res, next) => {
+  try{
+    const currentUserMessages = await messageModel.find({
+      conversationId: req.params.conversationId,
+    });
+    res.status(200).json(currentUserMessages);
+  }
+  catch(error){
+    next(error);
+  }
+}
+/*export const sendMessage: RequestHandler = async (req, res, next) => {
   try {
     const currentUser = req.session.userID;
     if(!currentUser){
@@ -55,11 +75,11 @@ export const getUserInteractions: RequestHandler = async (req,res, next) =>{
       /*const userRecievers = await messageModel.find({"$where": "this. username IN (select distinct sender  from messageModel where recipient  == this. currentUser.username  UNION  select distinct recipient from message where sender = currentUser.username"
     },{
        "username": 1
-    });*/
+    });
     const userRecievers = await messageModel.find({$or:[{ sender: user.username},{recipient: user.username }]});
     //const userRecievers = await userModel.aggregate([{
-        /*$lookup:{
-            from: "messageModel"*/
+        $lookup:{
+            from: "messageModel"
         //}
     //}])
       res.status(200).json({userRecievers});
@@ -68,5 +88,5 @@ export const getUserInteractions: RequestHandler = async (req,res, next) =>{
       next(error);
     }
   
-};
+};*/
 

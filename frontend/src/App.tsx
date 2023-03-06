@@ -10,6 +10,7 @@ import { User } from './models/user';
 import * as UserApi from './network/user_api';
 import NotFound from './pages/NotFound';
 import OffersPage from './pages/OffersPage';
+import MessagePage from './pages/MessagePage';
 import UserOffersPage from './pages/UserOffers';
 import styles from "./styles/App.module.css";
 
@@ -51,6 +52,10 @@ function App() {
 						<Route
 							path='/myoffers'
 							element={<UserOffersPage />}
+						/>
+						<Route
+							path='/mymessages'
+							element={<MessagePage userLoggedIn={userLoggedIn}/>}
 						/>
 						<Route
 							path='/*'

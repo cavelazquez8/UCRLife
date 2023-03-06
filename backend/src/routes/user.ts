@@ -12,4 +12,6 @@ router.get("/", requireAuth, UserController.getVerifiedUser);
 
 router.post("/logout", UserController.logout);
 
+router.get("/username", UserController.getUser);
+
 export default router;

@@ -2,6 +2,7 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import offersRoutes from "./routes/offers";
 import messagesRoutes from "./routes/message";
+import conversationRoutes from "./routes/conversation";
 import userRoutes from "./routes/user";
 import morgan from "morgan";
 import createHttpError , { isHttpError } from "http-errors";
@@ -31,6 +32,7 @@ app.use(session({
 app.use("/api/offers",  requireAuth, offersRoutes);
 app.use("/api/message", messagesRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/conversation", conversationRoutes);
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
