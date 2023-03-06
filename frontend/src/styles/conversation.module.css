@@ -1,0 +1,15 @@
+.conversation{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.conversation:hover{
+    background-color: rgb(231, 231, 231);
+}
+
+.userName{
+    font-weight: 500;
+}

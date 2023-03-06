@@ -207,11 +207,23 @@ export const login: RequestHandler<
 };
 
 export const logout: RequestHandler = (req, res, next) => {
-	req.session.destroy((error) => {
-		if (error) {
-			next(error);
-		} else {
-			res.sendStatus(200);
-		}
-	});
+    req.session.destroy(error => {
+        if (error) {
+            next(error);
+        } else {
+            res.sendStatus(200);
+        }
+    });
 };
+
+export const getUser: RequestHandler = (req, res, next) => {
+    const username = req.query.username;
+    try{
+        const user = UserModel.findOne({username:username});
+        res.status(200).json(user);
+    }
+    catch(error){
+        next(error);
+    }
+}
+

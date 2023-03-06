@@ -24,7 +24,10 @@
 		"react-scripts": "5.0.1",
 		"styled-components": "^5.3.6",
 		"typescript": "^4.9.5",
-		"web-vitals": "^2.1.4"
+		"web-vitals": "^2.1.4",
+    "useref": "^1.4.4",
+    "timeago": "^1.6.7",
+    "socket.io-client": "^4.6.1"
 	},
 	"scripts": {
 		"start": "react-scripts start",

@@ -29,7 +29,13 @@ const NavBar = ({
                         </Nav.Link>
 						) : ( <></>) }
                     </Nav>
-
+					<Nav>
+						{userLoggedIn ? (
+						<Nav.Link as={Link} to="/mymessages">
+                            Messages
+                        </Nav.Link>
+						) : ( <></>) }
+					</Nav>
 					<Nav className='ms-auto'>
 						{userLoggedIn ? (
 							<NavBarLoggedInView

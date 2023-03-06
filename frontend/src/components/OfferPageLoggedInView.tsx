@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import Offer from '../components/offer';
 import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
+import Categories from './Categories';
 
 const OfferPageLoggedInView = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
@@ -12,16 +13,17 @@ const OfferPageLoggedInView = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [category, setCategory] = useState('');
 
-	useEffect(() => {
-		async function loadOffers() {
-			try {
-				const offers = await OffersApi.fetchAllOffers();
-				setOffers(offers);
-			} catch (error) {
-				console.error(error);
-				alert(error);
-			}
+	async function loadOffers() {
+		try {
+			const offers = await OffersApi.fetchAllOffers();
+			setOffers(offers);
+		} catch (error) {
+			console.error(error);
+			alert(error);
 		}
+	}
+
+	useEffect(() => {
 		loadOffers();
 	}, []);
 
@@ -38,26 +40,52 @@ const OfferPageLoggedInView = () => {
 		}
 	};
 
+	const getCategoryLists = async () => {
+		try {
+			const offers = await OffersApi.searchOffer(category);
+			console.log(offers);
+			setOffers(offers);
+		} catch (error) {
+			console.error(error);
+			alert(error);
+		}
+		setCategory('');
+	};
+
 	const searchHandler = () => {
 		if (searchTerm === '') return;
 		getOfferLists();
 	};
 
-	  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const categoryHandler = useCallback(() => {
+		if (category === '') return;
+		if (category === 'all')
+		{
+			loadOffers();
+			setCategory('');
+			return;
+		}
+		getCategoryLists();
+	}, [category, getCategoryLists] );
+
+	const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		event.persist();
 		const newQuery = event.target.value;
-		console.log('target value:');
-		console.log(event.target.value);
-		console.log('setting category');
 		setCategory(newQuery);
-		console.log('category:');
-		//console.log(newQuery);
-		console.log(category);
-		searchHandler();
+		categoryHandler();
+	  };
+
+	  useEffect(() => {
+		categoryHandler();
+	  }, [category, categoryHandler]);
+
+	  const handleCategoryChange = (newText: string) => {
+		setCategory(newText);
 	  };
 
 	return (
 		<>
+		<Categories onCategoryChange={handleCategoryChange}/>
 			<input
 				type='search'
 				value={searchTerm}
@@ -71,8 +99,9 @@ const OfferPageLoggedInView = () => {
 
 					<label>
 					&nbsp;Category:&nbsp;
-                            <select value={searchTerm} onChange={handleSelectChange}>
+                            <select value={category} onChange={handleSelectChange}>
                             <option value="">Select a category</option>
+							<option value="all">All</option>
                             <option value="electronics">Electronics</option>
                             <option value="books">Books</option>
                             <option value="transport">Transport</option>

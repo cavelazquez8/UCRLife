@@ -1,5 +1,7 @@
+import Slider from "./Slider"
+import Categories from "./Categories";
 const OfferPageLoggedOutView = () =>{
-    return (<p>Please log in to see your offers</p>);
+    return (<Slider/>);
 }
 
 export default OfferPageLoggedOutView;
