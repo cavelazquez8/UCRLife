@@ -4,24 +4,26 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 interface ConversationPageProps {
-    userLoggedIn: User,
+    loggedInUser: User | null,
     conversation: any
 }
 
-const ConversationPage = ({conversation,userLoggedIn}) => {
+const ConversationPage = ({conversation, loggedInUser}: ConversationPageProps) => {
     const [user,setUser] = useState(null);
 
     useEffect(()=>{
-        const hasMessagedUser = conversation.user.find(u=>u !== userLoggedIn.username);
+        const hasMessagedUser = conversation.users.find( (u) => u !== loggedInUser._id);
+
         const getUser = async ()=>{
-            const res = await axios("/user" + hasMessagedUser);
+            const res = await axios('/api/user/get?userId=' + hasMessagedUser);
             setUser(res.data);
         };
         getUser()
-    },[userLoggedIn,conversation]);
+    },[loggedInUser, conversation]);
+
     return(
         <div className = {style.conversation}>
-            <span className={style.userName}> Bob Bob</span>
+            <span className={style.userName}> {user.username} </span>
         </div>
     )
 }

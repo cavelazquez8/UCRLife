@@ -13,6 +13,7 @@
 		"@types/react": "^18.0.27",
 		"@types/react-dom": "^18.0.10",
 		"@types/react-router-dom": "^5.3.3",
+		"axios": "^1.3.4",
 		"bootstrap": "^5.2.3",
 		"firebase": "^9.17.1",
 		"react": "^18.2.0",
@@ -22,12 +23,12 @@
 		"react-icons": "^4.7.1",
 		"react-router-dom": "^6.8.1",
 		"react-scripts": "5.0.1",
+		"socket.io-client": "^4.6.1",
 		"styled-components": "^5.3.6",
+		"timeago": "^1.6.7",
 		"typescript": "^4.9.5",
-		"web-vitals": "^2.1.4",
-    "useref": "^1.4.4",
-    "timeago": "^1.6.7",
-    "socket.io-client": "^4.6.1"
+		"useref": "^1.4.4",
+		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
 		"start": "react-scripts start",

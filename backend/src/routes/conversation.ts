@@ -4,5 +4,5 @@ import * as ConversationController from "../controllers/conversation";
 const router = express.Router();
 
 router.post("/newConversation", ConversationController.addConversation);
-router.get("/getUser", ConversationController.userSpecificConversation);
+router.get("/:userId", ConversationController.userSpecificConversation);
 export default router;

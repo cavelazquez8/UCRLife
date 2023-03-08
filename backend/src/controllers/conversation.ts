@@ -18,7 +18,7 @@ export const addConversation: RequestHandler = async (req, res, next) => {
 export const userSpecificConversation: RequestHandler = async(req,res,next) =>{
     try{    
         const currentConversation = await conversationModel.find({
-            members:{$in: [req.params.userId]},
+            users:{$in: [req.params.userId]},
         });
         res.status(200).json(currentConversation);
     }
