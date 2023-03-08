@@ -1,19 +1,19 @@
 import { Container } from "react-bootstrap";
-import Messenger from "../components/MessagePage"
 import OfferPageLoggedOutView from "../components/OfferPageLoggedOutView";
 import { User } from "../models/user";
+import UserOffer from "../components/UserOffers";
 
-interface OfferPageProps {
+interface userOfferPageProps {
     userLoggedIn: User | null,
 }
 
-const OffersPage = ({ userLoggedIn }: OfferPageProps) => {
+const UserOfferPage = ({ userLoggedIn }: userOfferPageProps) => {
     
     return (
             <Container>
 				<>
 					{userLoggedIn ? (
-						<Messenger userLoggedIn={userLoggedIn}/>
+						<UserOffer/>
 					) : (
 						<OfferPageLoggedOutView />
 					)}
@@ -22,4 +22,4 @@ const OffersPage = ({ userLoggedIn }: OfferPageProps) => {
     );
 }
 
-export default OffersPage;
+export default UserOfferPage;
