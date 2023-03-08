@@ -193,9 +193,9 @@ export const login: RequestHandler<
 		if (!validUser) {
 			throw createHttpError(401, 'Invalid email or password');
 		}
-		if (!validUser.verified) {
+		/*if (!validUser.verified) {
 			throw createHttpError(401, 'Unverified Email');
-		}
+		}*/
 		const samePassword = await bcrypt.compare(
 			passwordEntered,
 			validUser.password
@@ -221,14 +221,26 @@ export const logout: RequestHandler = (req, res, next) => {
     });
 };
 
-export const getUser: RequestHandler = (req, res, next) => {
-    const username = req.query.username;
+export const getUser: RequestHandler = async (req, res, next) => {
+    const userId = req.query.userId;
+	console.log("getting user");
     try{
-        const user = UserModel.findOne({username:username});
+        const user = await UserModel.findById(userId).exec();
         res.status(200).json(user);
     }
     catch(error){
         next(error);
     }
+
+	/*const verifiedUser = req.session.userID;
+
+	try {
+		const loggedUser = await UserModel.findById(verifiedUser)
+			.select('+email')
+			.exec();
+		res.status(200).json(loggedUser);
+	} catch (error) {
+		next(error);
+	}*/
 }
 

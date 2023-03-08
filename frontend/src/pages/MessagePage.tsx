@@ -16,28 +16,42 @@ const MessagePage = ({ userLoggedIn }: MessagePageProps) => {
     const [currentConversation, setCurrentConversation] = useState(null);
     const [conversationMessages, setMessages] = useState([]);
     const [newMessage, setnewMessage] = useState("");
-    const socket = useRef(io("ws://localhost:8900"));
+    //const socket = useRef(io("ws://localhost:8900"));
     const scrollRef = useRef();
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         socket.current.emit("addUser", userLoggedIn.username);
-    },[userLoggedIn]);
+    },[userLoggedIn]);*/
 
     useEffect(()=>{
         const getConversations = async ()=>{
-            const res = await axios.get("conversations/"+userLoggedIn?.username);
-            setConversations(res.data);
+            /*try {
+                const res = await axios.get('/api/conversation/' + userLoggedIn?._id);
+                console.log("the conversation is:");
+                console.log(res);
+                setConversations(res.data);
+              } catch (err) {
+                console.log(err);
+              }*/
+              axios.get('/api/conversation/' + userLoggedIn?._id).then(response => {
+                console.log("the conversation is:");
+                console.log(response);
+                setConversations(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         };
         getConversations();
-    },[userLoggedIn?.username]);
+    },[userLoggedIn]);
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         const getMessages = async ()=>{
             const res = await axios.get("/messages/"+currentConversation._id);
             setMessages(res.data);
         };
         getMessages();
-    }, [currentConversation]);
+    }, [currentConversation]);*/
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
@@ -47,11 +61,11 @@ const MessagePage = ({ userLoggedIn }: MessagePageProps) => {
             conversationId: currentConversation._id
         }
         const recieverName = currentConversation.users.find(user=> user !== userLoggedIn.username);
-        socket.current.emit("sendMessage", {
+        /*socket.current.emit("sendMessage", {
             sender: userLoggedIn.username,
             recieverName,
             text:newMessage
-        })
+        })*/
         try{
             const res = await axios.post("/message", message);
             setMessages([...conversationMessages, res.data])
@@ -73,7 +87,7 @@ const MessagePage = ({ userLoggedIn }: MessagePageProps) => {
                     <input placeholder="Search for people" className={style.MenuInput}/>
                     {conversations.map((c)=>(
                         <div onClick={()=>setCurrentConversation(c)}>
-                            <Conversation conversation={c} userLoggedIn/>
+                            <Conversation conversation={c} loggedInUser={userLoggedIn}/> 
                         </div>
                     ))}
                 </div>
