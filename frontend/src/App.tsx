@@ -11,7 +11,7 @@ import * as UserApi from './network/user_api';
 import NotFound from './pages/NotFound';
 import OffersPage from './pages/OffersPage';
 import MessagePage from './pages/MessagePage';
-import UserOffersPage from './pages/UserOffers';
+import UserOfferPage from './pages/UserOffersPage';
 import styles from './styles/App.module.css';
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
 
 						<Route
 							path='/myoffers'
-							element={<UserOffersPage />}
+							element={<UserOfferPage userLoggedIn={userLoggedIn}/>}
 						/>
 						<Route
 							path='/mymessages'

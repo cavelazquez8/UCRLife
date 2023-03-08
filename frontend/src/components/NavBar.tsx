@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import NavBarLoggedInView from './NavBarLoggedInView';
 import NavBarLoggedOutView from './NavBarLoggedOutView';
 import { Link } from "react-router-dom";
+import OffersPage from '../pages/OffersPage';
 
 interface NavBarComponents {
 	userLoggedIn: User | null;
@@ -27,7 +28,7 @@ const NavBar = ({
 						<Nav.Link as={Link} to="/myoffers">
                             My Offers
                         </Nav.Link>
-						) : ( <></>) }
+						) : (<></>) }
                     </Nav>
 					<Nav>
 						{userLoggedIn ? (
