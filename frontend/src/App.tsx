@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound';
 import OffersPage from './pages/OffersPage';
 import MessagePage from './pages/MessagePage';
 import UserOfferPage from './pages/UserOffersPage';
+import FavoriteOffersPage from './pages/FavoriteOffersPage';
 import styles from './styles/App.module.css';
 
 function App() {
@@ -59,6 +60,10 @@ function App() {
 						<Route
 							path='/mymessages'
 							element={<MessagePage userLoggedIn={userLoggedIn}/>}
+						/>
+						<Route	
+							path='/starOffers'
+							element={<FavoriteOffersPage userLoggedIn={userLoggedIn}/>}
 						/>
 						<Route
 							path='/*'

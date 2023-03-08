@@ -1,19 +1,19 @@
 import { Container } from "react-bootstrap";
-import Messenger from "../components/MessagePage"
 import OfferPageLoggedOutView from "../components/OfferPageLoggedOutView";
 import { User } from "../models/user";
+import FavoriteOffers from "../components/FavoriteOffers";
 
-interface MessagePageProps {
+interface FavoriteOffersPageProps {
     userLoggedIn: User | null,
 }
 
-const MessagePage = ({ userLoggedIn }: MessagePageProps) => {
+const FavoriteOffersPage = ({ userLoggedIn }: FavoriteOffersPageProps) => {
     
     return (
             <Container>
 				<>
 					{userLoggedIn ? (
-						<Messenger userLoggedIn={userLoggedIn}/>
+						<FavoriteOffers/>
 					) : (
 						<OfferPageLoggedOutView />
 					)}
@@ -22,4 +22,4 @@ const MessagePage = ({ userLoggedIn }: MessagePageProps) => {
     );
 }
 
-export default MessagePage;
+export default FavoriteOffersPage;
