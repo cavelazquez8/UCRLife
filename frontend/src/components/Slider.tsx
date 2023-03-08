@@ -8,9 +8,10 @@ interface directionProp {
 }
 
 const Container = styled.div`
-	width: 80%;
-	height: 80vh;
+	width: 100%;
+	height: 100vh;
 	display: flex;
+	overflow: hidden;
 `;
 const Arrow = styled.div<directionProp>`
 	width: 50px;
@@ -34,8 +35,8 @@ const Wrapper = styled.div`
 	height: 50%;
 `;
 const Slide = styled.div`
-	width: 100vw;
-	height: 100vh;
+	width: 90vw;
+	height: 90vh;
 	display: flex;
 	align-items: center;
 `;
@@ -72,9 +73,10 @@ const Slider = () => {
 					<InfoContainer>
 						<Title>UCRLIFE</Title>
 						<Desc>
-							MADE FOR A BETTER UCR EXPERIENCE. PRODUCTS ONLY FROM VERIFIED UCR
+							PRODUCTS ONLY FROM VERIFIED UCR
 							STUDENTS.
 						</Desc>
+						<Desc>LOG IN TO SEE OFFERS</Desc>
 					</InfoContainer>
 				</Slide>
 			</Wrapper>
@@ -82,3 +84,4 @@ const Slider = () => {
 	);
 };
 export default Slider;
+
