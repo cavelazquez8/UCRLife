@@ -221,7 +221,7 @@ export const searchOffer: RequestHandler = async (req, res, next) => {
 export const rating: RequestHandler = async (req, res, next) => {
 	const loggedUserId = req.session.userID;
 	const star = req.body.star;
-	const offerId = req.params.offerId;
+	const offerId = req.body.offerId;
 
 
 	try {
