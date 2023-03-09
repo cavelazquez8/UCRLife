@@ -221,6 +221,7 @@ export const searchOffer: RequestHandler = async (req, res, next) => {
 export const rating: RequestHandler = async (req, res, next) => {
 	const loggedUserId = req.session.userID;
 	const star = req.body.star;
+	const comment = req.body.comment;
 	const offerId = req.body.offerId;
 
 
@@ -242,7 +243,7 @@ export const rating: RequestHandler = async (req, res, next) => {
 				ratings: {$elemMatch:alreadyRated}
 			}, 
 			{
-				$set: {"ratings.$.star":star}
+				$set: {"ratings.$.star":star, "ratings.$.comment": comment},
 			},
 			{
 				new: true,
@@ -253,6 +254,7 @@ export const rating: RequestHandler = async (req, res, next) => {
 				$push: {
 					ratings:{
 						star: star,
+						comment: comment,
 						postedby: loggedUserId,
 					},
 				},
