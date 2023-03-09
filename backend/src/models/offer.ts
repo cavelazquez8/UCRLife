@@ -11,6 +11,7 @@ const offerSchema = new Schema({
     ratings: [
         {
             star: {type: Number},
+            comment : {tyep: String},
             postedby: {type: Schema.Types.ObjectId, required: true},
         },
     ],
