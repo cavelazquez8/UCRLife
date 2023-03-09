@@ -248,7 +248,6 @@ export const rating: RequestHandler = async (req, res, next) => {
 				new: true,
 			}
 			);
-			res.json(updateRating);
 		}else{
 			const rateProduct = await offerModel.findByIdAndUpdate(offerId, {
 				$push: {
@@ -262,7 +261,6 @@ export const rating: RequestHandler = async (req, res, next) => {
 				new: true,
 			}
 			);
-			res.json(rateProduct);
 		}
 		const getallratings = await offerModel.findById(offerId);
 		let totalRating = getallratings.ratings.length;
