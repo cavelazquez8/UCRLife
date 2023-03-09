@@ -223,8 +223,6 @@ export const rating: RequestHandler = async (req, res, next) => {
 	const star = req.body.star;
 	const comment = req.body.comment;
 	const offerId = req.body.offerId;
-
-
 	try {
 		
 		if (!mongoose.isValidObjectId(offerId)) {
