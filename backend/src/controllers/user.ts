@@ -231,16 +231,5 @@ export const getUser: RequestHandler = async (req, res, next) => {
     catch(error){
         next(error);
     }
-
-	/*const verifiedUser = req.session.userID;
-
-	try {
-		const loggedUser = await UserModel.findById(verifiedUser)
-			.select('+email')
-			.exec();
-		res.status(200).json(loggedUser);
-	} catch (error) {
-		next(error);
-	}*/
 }
 
