@@ -1,9 +1,11 @@
 import styles from '../styles/Offer.module.css';
-import { Card } from 'react-bootstrap';
+import { Card, Form, Button } from 'react-bootstrap';
+import { useState } from 'react';
 import { Offer as OfferModel } from '../models/offers';
 import { formatDate } from '../utils/formatDate';
 import { MdDelete } from 'react-icons/md';
 import styleUtils from '../styles/utils.module.css';
+import { rateOffer } from '../network/offers_api';
 
 interface OfferProps {
 	offer: OfferModel;
@@ -19,6 +21,22 @@ const Offer = ({
 	className,
 }: OfferProps) => {
 	const { title, username, description, imgURL, price, createdAt, updatedAt } = offer;
+
+	const [rating, setRating] = useState<number>(0);
+	const [comment, setComment] = useState<string>('');
+
+	const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setRating(parseInt(event.target.value));
+	};
+
+	const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setComment(event.target.value);
+	};
+
+	const handleRateOffer = async () => {
+		await rateOffer(offer._id, rating, comment);
+		window.location.reload(); // Reload the page to show the updated ratings
+	};
 
 	let createdUpdatedText: string;
 	if (updatedAt > createdAt) {
@@ -44,8 +62,35 @@ const Offer = ({
 						}}
 					/>
 				</Card.Title>
-				<Card.Subtitle className="mb-2 text-muted"> Created by:&nbsp;{username} </Card.Subtitle>
+				<Card.Subtitle className='mb-2 text-muted'>
+					Created by:&nbsp;{username}
+				</Card.Subtitle>
 				<Card.Text className={styles.cardText}>{description}</Card.Text>
+				<div>
+					<Form.Control
+						as='select'
+						value={rating}
+						onChange={handleRatingChange}
+						className='mb-3'
+					>
+						<option value={0}>Rate this offer...</option>
+						<option value={1}>1 star</option>
+						<option value={2}>2 stars</option>
+						<option value={3}>3 stars</option>
+						<option value={4}>4 stars</option>
+						<option value={5}>5 stars</option>
+					</Form.Control>
+					<Form.Control
+						type='text'
+						placeholder='Write a review...'
+						value={comment}
+						onChange={handleCommentChange}
+						className='mb-3'
+					/>
+					<Button variant='primary' onClick={handleRateOffer} disabled={rating === 0}>
+						Submit Review
+					</Button>
+				</div>
 			</Card.Body>
 			<Card.Footer className='text-muted'>{createdUpdatedText}</Card.Footer>
 		</Card>
