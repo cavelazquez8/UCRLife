@@ -10,10 +10,12 @@ const Message = ({xmessage, myMessage}: MessagePageProps) =>{
     return (
         <div className={myMessage ? `${style.message} ${style.own}` : style.message}>
             <div className={style.messageTop}>
-                <p className={style.messageText}>{xmessage.text}</p>
+                <p className={style.messageText}> {xmessage.text} </p> 
             </div>
-            <div className={style.messageBottom}>{format(xmessage.createdAt)}</div>
+             <div className={style.messageBottom}>{format(xmessage.createdAt)} </div> 
         </div>
+
+        
 
     )
 }

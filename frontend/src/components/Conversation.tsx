@@ -28,8 +28,7 @@ const ConversationPage = ({conversation, loggedInUser}: ConversationPageProps) =
 
     return(
         <div className = {style.conversation}>
-            
-            <span className={style.userName}> {user?.username} </span>
+            { <span className={style.userName}> {user?.username} </span> }
         </div>
     )
 }

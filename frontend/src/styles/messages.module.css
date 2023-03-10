@@ -4,7 +4,7 @@
 }
 
 .Menu{
-    flex: 0;
+    flex: 3.5;
 }
 
 .MenuInput{
@@ -14,7 +14,7 @@
   border-bottom: 1px solid gray;
 }
 .conversationSpace{
-    flex: .2;
+    flex: 5.5;
 }
 
 .conversationHeader{
@@ -25,8 +25,8 @@
 .conversationSpaceWrapper{
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;
-    position: relative;*/
+    justify-content: space-between;
+    position: relative;
 }
 
 .conversationFloor{
@@ -37,7 +37,7 @@
 }
 .messageInput{
     width: 80%;
-    height: 90px;
+    height: 70px;
     padding: 10px;
 }
 
@@ -52,8 +52,16 @@
 }
 
 .usersOnline{
-    flex: .5;
+    flex: 3;
 }
+
+.noConversationText {
+    position: absolute;
+    top: 10%;
+    font-size: 50px;
+    color: rgb(224, 220, 220);
+    cursor: default;
+  }
 
 .MenuWrapper, .conversationSpaceWrapper, .usersOnlineWrapper{
     padding: 10px;

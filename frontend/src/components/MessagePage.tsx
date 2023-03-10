@@ -11,6 +11,7 @@ interface MessagerPageProps {
 }
 
 const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
+
     const [conversations, setConversations] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [conversationMessages, setMessages] = useState([]);
@@ -39,6 +40,7 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     useEffect(()=>{
         socket.current.emit("addUser", userLoggedIn._id)
         socket.current.on("getUsers", users=>{
+            console.log(users);
         })
     },[socket, userLoggedIn]);
 
@@ -92,36 +94,76 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     return (
         <>
         <div className= {style.messenger}>
-            <div className={style.Menu}></div>
+            <div className={style.Menu}> menu 
                 <div className={style.MenuWrapper}>
-                    <input placeholder="Search for people" className={style.MenuInput}/>
+                    <input placeholder="Conversations" className={style.MenuInput}/>
                     {conversations.map((c)=>(
                         <div onClick={()=>setCurrentConversation(c)}>
                             <Conversation conversation={c} loggedInUser={userLoggedIn}/> 
                         </div>
                     ))}
                 </div>
-            <div className={style.conversationSpace}></div>
+            </div>
+            <div className={style.conversationSpace}>
                 <div className={style.conversationSpaceWrapper}>
                     {
                         currentConversation ?
                     (<>
-                    <div className={style.conversationHeader}></div>
+                    <div className={style.conversationHeader}>
                         {conversationMessages.map((m)=>(
                             <div ref = {scrollRef}>
                             <Message xmessage={(m)} myMessage={m.sender === userLoggedIn._id}/>
                             </div>
                         ))}
+                    </div>
                     <div className={style.conversationFloor}>
-                        <textarea className={style.messageInput} placeholder="Message" onChange={(e)=>setnewMessage(e.target.value)} value ={newMessage}></textarea>
+                        <textarea className={style.messageInput} placeholder="Message" 
+                            onChange={(e)=>setnewMessage(e.target.value)} value ={newMessage}
+                            onKeyDown={(e) => {
+                                if (e.keyCode === 13) handleSubmit(e);
+                            }} ></textarea>
+
                         <button className={style.sendButton} onClick={handleSubmit}>Send</button>
                         
-                    </div></>): (<span className = "noConversation">Open a conversation</span>
+                    </div></>): (<span className = {style.noConversationText}>Open a conversation</span>
                     )}
                 </div>
+            </div>
+            <div className={style.usersOnline}>
+                <div className={style.usersOnlineWrapper}>
+                </div>
+            </div>
         </div>
         </>
     )
 }
+
+/* return (
+        <div className={style.messenger}>
+            <div className={style.Menu}>
+                <div className={style.MenuWrapper}>
+                <input placeholder="Search for people" className={style.MenuInput}/>
+                <Conversation />
+                </div>
+            </div>
+            <div className={style.conversationSpace}>
+                <div className={style.conversationSpaceWrapper}>
+                    <div className={style.conversationHeader}>
+                    <Message myMessage = {true}/>
+                    <Message myMessage = {false}/>
+                    </div>
+                    <div className={style.conversationFloor}>
+                    <textarea className={style.messageInput} placeholder="Message" ></textarea>
+                    <button className={style.sendButton}> send </button>
+                    </div>
+                </div>
+            </div>
+            <div className={style.usersOnline}>
+                <div className={style.usersOnlineWrapper}>
+                    online
+                </div>
+            </div>
+        </div>
+    ) */
 
 export default Messenger;
