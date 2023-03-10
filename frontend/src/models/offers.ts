@@ -7,6 +7,11 @@ export interface Offer {
     price: number,
     categogry?: string,
     totalrating:number,
+    ratings:  {
+        star: number;
+        comment: string;
+        postedby: string;
+      }[],
     createdAt: string,
     updatedAt: string,
 }
