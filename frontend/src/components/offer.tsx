@@ -20,12 +20,13 @@ const Offer = ({
 	onOfferClicked,
 	className,
 }: OfferProps) => {
-	const { title, username, description, imgURL, price, createdAt, updatedAt } = offer;
+	const { title, username, description, imgURL, price, createdAt, updatedAt, totalrating} = offer;
 
 	const [rating, setRating] = useState<number>(0);
 	const [comment, setComment] = useState<string>('');
 
 	const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		
 		setRating(parseInt(event.target.value));
 	};
 
@@ -90,6 +91,13 @@ const Offer = ({
 					<Button variant='primary' onClick={handleRateOffer} disabled={rating === 0}>
 						Submit Review
 					</Button>
+				<div className='mt-3'>
+						{totalrating !== undefined && (
+							<span>
+								Average rating: {totalrating} star{totalrating !== 1 && 's'}
+							</span>
+						)}
+					</div>
 				</div>
 			</Card.Body>
 			<Card.Footer className='text-muted'>{createdUpdatedText}</Card.Footer>
