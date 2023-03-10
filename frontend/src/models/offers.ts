@@ -6,6 +6,7 @@ export interface Offer {
     imgURL?: string,
     price: number,
     categogry?: string,
+    totalrating:number,
     createdAt: string,
     updatedAt: string,
 }
