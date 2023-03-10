@@ -13,7 +13,7 @@ import {AiFillStar} from 'react-icons/ai'
 interface CommentProps {
 	star: number;
 	comment: string;
-	postedby: UserModel;
+	postedby:  UserModel;
 }
 
 const Comment = ({ star, comment, postedby }: CommentProps) => {
@@ -24,9 +24,9 @@ const Comment = ({ star, comment, postedby }: CommentProps) => {
 				{[...Array(star)].map((_, index) => (
        			 <AiFillStar key={index} style={{ color: 'blue' }} />
 					))}
-    {[...Array(5 - star)].map((_, index) => (
-        <BiStar key={index} />
-    ))}
+    				{[...Array(5 - star)].map((_, index) => (
+        			<BiStar key={index} />
+   				 ))}
 				</div>
 				<div className={styles.commentPostedBy}>Posted by: {postedby.username}</div>
 			</div>
@@ -100,7 +100,9 @@ const Offer = ({
 					))}
     {[...Array(5 - Math.floor(totalrating))].map((_, index) => (
         <BiStar key={index} />
-    ))}     <span className={styles.numRatings}>({ratings.length})</span>
+    ))}     <span className={styles.numRatings}>
+	<span style={{ color: 'blue' }}>({ratings.length})</span>
+</span>
 						</div>
 				<Card.Text className={styles.cardText}>{description}</Card.Text>
 				<div>

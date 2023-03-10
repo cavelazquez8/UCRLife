@@ -14,7 +14,7 @@
 
 .commentPostedBy {
     font-size: 14px;
-    color: #666;
+    color: #6c757d;
     margin-top: 5px;
   }
   
@@ -39,5 +39,10 @@
     margin-left: 8px;
     font-size: 14px;
     color: #767676;
+  }
+  .commentText {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6c757d;
   }
   
