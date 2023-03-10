@@ -2,16 +2,18 @@ import styles from '../styles/Offer.module.css';
 import { Card, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { Offer as OfferModel } from '../models/offers';
+import {User as UserModel} from '../models/user';
 import { formatDate } from '../utils/formatDate';
 import { MdDelete } from 'react-icons/md';
 import styleUtils from '../styles/utils.module.css';
 import { rateOffer } from '../network/offers_api';
-
+import { BiStar } from 'react-icons/bi';
+import {AiFillStar} from 'react-icons/ai'
 
 interface CommentProps {
 	star: number;
 	comment: string;
-	postedby: string;
+	postedby: UserModel;
 }
 
 const Comment = ({ star, comment, postedby }: CommentProps) => {
@@ -19,14 +21,14 @@ const Comment = ({ star, comment, postedby }: CommentProps) => {
 		<div className={styles.commentContainer}>
 			<div className={styles.commentHeader}>
 				<div className={styles.commentStars}>
-					{[...Array(star)].map((_, index) => (
-						<i key={index} className='bi bi-star-fill'></i>
+				{[...Array(star)].map((_, index) => (
+       			 <AiFillStar key={index} style={{ color: 'blue' }} />
 					))}
-					{[...Array(5 - star)].map((_, index) => (
-						<i key={index} className='bi bi-star'></i>
-					))}
+    {[...Array(5 - star)].map((_, index) => (
+        <BiStar key={index} />
+    ))}
 				</div>
-				<div className={styles.commentPostedBy}>Posted by: {postedby} ({star} stars)</div>
+				<div className={styles.commentPostedBy}>Posted by: {postedby.username}</div>
 			</div>
 			<div className={styles.commentText}>{comment}</div>
 		</div>
@@ -92,6 +94,14 @@ const Offer = ({
 				<Card.Subtitle className='mb-2 text-muted'>
 					Created by:&nbsp;{username}
 				</Card.Subtitle>
+				<div className={styles.commentStars}>
+						{[...Array(Math.floor(totalrating))].map((_, index) => (
+       			 <AiFillStar key={index} style={{ color: 'blue' }} />
+					))}
+    {[...Array(5 - Math.floor(totalrating))].map((_, index) => (
+        <BiStar key={index} />
+    ))}     <span className={styles.numRatings}>({ratings.length})</span>
+						</div>
 				<Card.Text className={styles.cardText}>{description}</Card.Text>
 				<div>
 					<Form.Control
@@ -117,28 +127,14 @@ const Offer = ({
 					<Button variant='primary' onClick={handleRateOffer} disabled={rating === 0}>
 						Submit Review
 					</Button>
-					<div className='mt-3'>
-						{totalrating !== undefined && (
-							<span>
-								Average rating: {totalrating} star{totalrating !== 1 && 's'}
-							</span>
-						)}
-					</div>
+		
 				
 					</div>
 			{totalrating && (
 				<div className={styles.commentContainer}>
 					<div className={styles.commentHeader}>
-						<div className={styles.commentStars}>
-							{[...Array(totalrating)].map((_, index) => (
-								<i key={index} className='bi bi-star-fill'></i>
-							))}
-							{[...Array(5 - totalrating)].map((_, index) => (
-								<i key={index} className='bi bi-star'></i>
-							))}
-						</div>
 						<div className={styles.commentPostedBy}>
-							Number of ratings: {ratings.length} 
+							Reviews
 						</div>
 					</div>
 					<div className={styles.commentText}>
