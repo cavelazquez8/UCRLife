@@ -75,11 +75,12 @@ export async function rateOffer(
 	star: number,
 	comment: string,
 ): Promise<void> {
-	await fetchData(`/api/offers/rating/${offerId}`, {
+	await fetchData(`/api/offers/rating`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
+
 		},
-		body: JSON.stringify({ star, comment }),
+		body: JSON.stringify({ star, comment, offerId }),
 	});
 }
