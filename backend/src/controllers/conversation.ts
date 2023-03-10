@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import createHttpError from "http-errors";
 import conversationModel from "../models/Conversation"
 
 export const addConversation: RequestHandler = async (req, res, next) => {

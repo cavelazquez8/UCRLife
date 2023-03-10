@@ -8,7 +8,7 @@ interface MessagePageProps {
 
 const Message = ({xmessage, myMessage}: MessagePageProps) =>{
     return (
-        <div className={myMessage ? style.messageown : style.message}>
+        <div className={myMessage ? `${style.message} ${style.own}` : style.message}>
             <div className={style.messageTop}>
                 <p className={style.messageText}>{xmessage.text}</p>
             </div>

@@ -56,6 +56,7 @@
 		]
 	},
 	"devDependencies": {
+		"@types/socket.io-client": "^3.0.0",
 		"@types/styled-components": "^5.1.26",
 		"@types/timeago": "^1.6.0"
 	}

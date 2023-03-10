@@ -15,12 +15,32 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     const [currentConversation, setCurrentConversation] = useState(null);
     const [conversationMessages, setMessages] = useState([]);
     const [newMessage, setnewMessage] = useState("");
-    //const socket = useRef(io("ws://localhost:8900"));
+    const [arrivalMessage, setArrivalMessage] = useState(null);
+    const socket = useRef(io("ws://localhost:8900"));
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    /*useEffect(()=>{
-        socket.current.emit("addUser", userLoggedIn.username);
-    },[userLoggedIn]);*/
+    useEffect(() => {
+        socket.current = io("ws://localhost:8900");
+        socket.current.on("getMessage", (data) => {
+            setArrivalMessage({
+              sender: data.senderId,
+              text: data.text,
+              createdAt: Date.now(),
+            });
+        });
+      }, []);
+
+      useEffect(() => {
+        arrivalMessage &&
+          currentConversation?.users.includes(arrivalMessage.sender) &&
+          setMessages((prev) => [...prev, arrivalMessage]);
+      }, [arrivalMessage, currentConversation]);
+
+    useEffect(()=>{
+        socket.current.emit("addUser", userLoggedIn._id)
+        socket.current.on("getUsers", users=>{
+        })
+    },[socket, userLoggedIn]);
 
     useEffect(()=>{
             axios.get('/api/conversation/' + userLoggedIn?._id).then(response => {
@@ -39,8 +59,6 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
         getMessages();
     }, [currentConversation]);
 
-    console.log(conversationMessages);
-
     const handleSubmit = async(e) =>{
         e.preventDefault();
         const message = {
@@ -48,12 +66,15 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
             sender: userLoggedIn._id,
             text: newMessage,
         }
-        const recieverName = currentConversation.users.find(user=> user !== userLoggedIn.username);
-        /*socket.current.emit("sendMessage", {
-            sender: userLoggedIn.username,
-            recieverName,
-            text:newMessage
-        })*/
+        const recieverId = currentConversation.users.find(
+            (user) => user !== userLoggedIn._id);
+
+        socket.current.emit("sendMessage", {
+            senderId: userLoggedIn._id,
+            recieverId,
+            text:newMessage,
+        });
+
         try{
             const res = await axios.post('api/message/send', message);
             setMessages([...conversationMessages, res.data]);
