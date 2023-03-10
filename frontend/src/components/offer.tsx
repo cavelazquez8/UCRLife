@@ -7,6 +7,32 @@ import { MdDelete } from 'react-icons/md';
 import styleUtils from '../styles/utils.module.css';
 import { rateOffer } from '../network/offers_api';
 
+
+interface CommentProps {
+	star: number;
+	comment: string;
+	postedby: string;
+}
+
+const Comment = ({ star, comment, postedby }: CommentProps) => {
+	return (
+		<div className={styles.commentContainer}>
+			<div className={styles.commentHeader}>
+				<div className={styles.commentStars}>
+					{[...Array(star)].map((_, index) => (
+						<i key={index} className='bi bi-star-fill'></i>
+					))}
+					{[...Array(5 - star)].map((_, index) => (
+						<i key={index} className='bi bi-star'></i>
+					))}
+				</div>
+				<div className={styles.commentPostedBy}>Posted by: {postedby} ({star} stars)</div>
+			</div>
+			<div className={styles.commentText}>{comment}</div>
+		</div>
+	);
+};
+
 interface OfferProps {
 	offer: OfferModel;
 	onOfferClicked: (note: OfferModel) => void;
@@ -20,7 +46,7 @@ const Offer = ({
 	onOfferClicked,
 	className,
 }: OfferProps) => {
-	const { title, username, description, imgURL, price, createdAt, updatedAt, totalrating} = offer;
+	const { title, username, description, imgURL, price, createdAt, updatedAt, totalrating, ratings} = offer;
 
 	const [rating, setRating] = useState<number>(0);
 	const [comment, setComment] = useState<string>('');
@@ -91,18 +117,45 @@ const Offer = ({
 					<Button variant='primary' onClick={handleRateOffer} disabled={rating === 0}>
 						Submit Review
 					</Button>
-				<div className='mt-3'>
+					<div className='mt-3'>
 						{totalrating !== undefined && (
 							<span>
 								Average rating: {totalrating} star{totalrating !== 1 && 's'}
 							</span>
 						)}
 					</div>
+				
+					</div>
+			{totalrating && (
+				<div className={styles.commentContainer}>
+					<div className={styles.commentHeader}>
+						<div className={styles.commentStars}>
+							{[...Array(totalrating)].map((_, index) => (
+								<i key={index} className='bi bi-star-fill'></i>
+							))}
+							{[...Array(5 - totalrating)].map((_, index) => (
+								<i key={index} className='bi bi-star'></i>
+							))}
+						</div>
+						<div className={styles.commentPostedBy}>
+							Number of ratings: {ratings.length} 
+						</div>
+					</div>
+					<div className={styles.commentText}>
+						{ratings.map((comment, index) => (
+							<Comment
+								key={index}
+								star={comment.star}
+								comment={comment.comment}
+								postedby={comment.postedby}
+							/>
+						))}
+					</div>
 				</div>
-			</Card.Body>
-			<Card.Footer className='text-muted'>{createdUpdatedText}</Card.Footer>
-		</Card>
-	);
+			)}
+		</Card.Body>
+		<Card.Footer className='text-muted'>{createdUpdatedText}</Card.Footer>
+	</Card>
+);
 };
-
 export default Offer;
