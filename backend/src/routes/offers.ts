@@ -10,5 +10,6 @@ router.get('/:offerId', OffersController.getOffer);
 router.post('/', OffersController.createOffer);
 router.patch('/:offerId', OffersController.updateOffer);
 router.delete('/:offerId', OffersController.deleteOffer);
+router.put('/rating', OffersController.rating)
 
 export default router;
