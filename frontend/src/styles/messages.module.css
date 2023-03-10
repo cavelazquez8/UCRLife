@@ -1,5 +1,5 @@
 .messenger{
-    height: calc(100vh - 70px);
+    height: calc(100vh - 100px);
     display: flex;
 }
 
@@ -8,7 +8,7 @@
 }
 
 .MenuInput{
-    width: 90%;
+  width: 90%;
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid gray;
@@ -25,6 +25,8 @@
 .conversationSpaceWrapper{
     display: flex;
     flex-direction: column;
+    /*justify-content: space-between;
+    position: relative;*/
 }
 
 .conversationFloor{
@@ -45,7 +47,8 @@
     border: none;
     border-radius: 5px;
     cursor:pointer;
-    background-color: rgb(245, 150, 6);
+    background-color: teal;
+    color: white;
 }
 
 .usersOnline{
