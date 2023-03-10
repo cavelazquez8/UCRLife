@@ -1,7 +1,8 @@
 .message {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
+    
   }
   
   .messageTop{
@@ -24,17 +25,17 @@
       max-width: 300px;
       word-wrap: break-word;
   }
-  
-  .messageBottom{
-      font-size: 12px;
-      margin-top: 1px;
-  }
-  
-  .message.own{
-      align-items: flex-end;
-  }
-  
-  .message.own .messageText{
-      background-color: rgb(245, 241, 241);
-      color: black;
-  }
+
+.messageBottom{
+    font-size: 12px;
+    margin-top: 10px; 
+}
+
+.message.own{
+    align-items: flex-end;
+}
+
+.message.own .messageText{
+    background-color: rgb(245, 241, 241);
+    color: black;
+}
