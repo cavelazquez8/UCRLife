@@ -21,6 +21,11 @@ import { ObjectId } from 'mongodb';
 //         pass: env.PASS
 //     }
 // })
+export const sum = (...a: number[]) => {
+	a.reduce((acc, val) => acc + val, 0);
+};
+
+export const sum1 = (a: number, b: number) => a + b;
 
 export const sendAMail = async (
 	email: string,
@@ -212,24 +217,22 @@ export const login: RequestHandler<
 };
 
 export const logout: RequestHandler = (req, res, next) => {
-    req.session.destroy(error => {
-        if (error) {
-            next(error);
-        } else {
-            res.sendStatus(200);
-        }
-    });
+	req.session.destroy((error) => {
+		if (error) {
+			next(error);
+		} else {
+			res.sendStatus(200);
+		}
+	});
 };
 
 export const getUser: RequestHandler = async (req, res, next) => {
-    const userId = req.query.userId;
-	console.log("getting user");
-    try{
-        const user = await UserModel.findById(userId).exec();
-        res.status(200).json(user);
-    }
-    catch(error){
-        next(error);
-    }
-}
-
+	const userId = req.query.userId;
+	console.log('getting user');
+	try {
+		const user = await UserModel.findById(userId).exec();
+		res.status(200).json(user);
+	} catch (error) {
+		next(error);
+	}
+};
