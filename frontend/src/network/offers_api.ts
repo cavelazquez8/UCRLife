@@ -69,3 +69,18 @@ export async function searchOffer(keyword: string): Promise<Offer[]> {
 export async function deleteOffer(offerId: string) {
 	await fetchData('/api/offers/' + offerId, { method: 'DELETE' });
 }
+
+export async function rateOffer(
+	offerId: string,
+	star: number,
+	comment: string,
+): Promise<void> {
+	await fetchData(`/api/offers/rating`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+
+		},
+		body: JSON.stringify({ star, comment, offerId }),
+	});
+}
