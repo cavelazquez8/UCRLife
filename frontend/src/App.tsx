@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Container, Modal, Button } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Categories from './components/Categories';
 import LoginUserModel from './components/LoginUserModel';
 import NavBar from './components/NavBar';
 import SignUpModel from './components/SignUpModel';
-import Slider from './components/Slider';
 import { User } from './models/user';
 import * as UserApi from './network/user_api';
 import NotFound from './pages/NotFound';

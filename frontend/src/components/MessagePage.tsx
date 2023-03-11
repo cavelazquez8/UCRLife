@@ -5,12 +5,18 @@ import { User } from "../models/user";
 import {useEffect, useRef, useState} from "react"
 import axios from "axios";
 import {io} from "socket.io-client"
+import { useLocation } from 'react-router-dom';
 
 interface MessagerPageProps {
     userLoggedIn: User | null,
 }
 
 const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get('id');
+    const mssg = searchParams.get('mssg');
 
     const [conversations, setConversations] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
@@ -19,6 +25,13 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const socket = useRef(io("ws://localhost:8900"));
     const scrollRef = useRef<HTMLDivElement>(null);
+
+    const conver = conversations.find( (convs) => convs._id === id );
+
+      useEffect(() => {
+        setCurrentConversation(conver);
+        setnewMessage(mssg)
+      }, [conver, mssg]);
 
     useEffect(() => {
         socket.current = io("ws://localhost:8900");
@@ -31,10 +44,10 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
         });
       }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         arrivalMessage &&
-          currentConversation?.users.includes(arrivalMessage.sender) &&
-          setMessages((prev) => [...prev, arrivalMessage]);
+        currentConversation?.users.includes(arrivalMessage.sender) &&
+        setMessages((prev) => [...prev, arrivalMessage]);
       }, [arrivalMessage, currentConversation]);
 
     useEffect(()=>{
@@ -94,12 +107,12 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     return (
         <>
         <div className= {style.messenger}>
-            <div className={style.Menu}> menu 
+            <div className={style.Menu}>
                 <div className={style.MenuWrapper}>
                     <input placeholder="Conversations" className={style.MenuInput}/>
                     {conversations.map((c)=>(
                         <div onClick={()=>setCurrentConversation(c)}>
-                            <Conversation conversation={c} loggedInUser={userLoggedIn}/> 
+                            <Conversation conversation={c} loggedInUser={userLoggedIn} current={currentConversation?._id === c._id}/> 
                         </div>
                     ))}
                 </div>

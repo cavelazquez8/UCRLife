@@ -7,6 +7,10 @@
     width: 90%;
 }
 
+.conversation.current{
+    background-color: rgb(231, 231, 231);
+}
+
 .conversation:hover{
     background-color: rgb(231, 231, 231);
 }
