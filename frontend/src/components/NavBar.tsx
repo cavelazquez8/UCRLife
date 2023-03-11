@@ -32,6 +32,13 @@ const NavBar = ({
                     </Nav>
 					<Nav>
 						{userLoggedIn ? (
+						<Nav.Link as={Link} to="/starOffers">
+                            Favorites
+                        </Nav.Link>
+						) : ( <></>) }
+					</Nav>
+					<Nav>
+						{userLoggedIn ? (
 						<Nav.Link as={Link} to="/mymessages">
                             Messages
                         </Nav.Link>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Offer as OfferModel } from '../models/offers';
 import {User as UserModel} from '../models/user';
 import { formatDate } from '../utils/formatDate';
-import { MdDelete } from 'react-icons/md';
+import { MdDelete,MdBookmark } from 'react-icons/md';
 import styleUtils from '../styles/utils.module.css';
 import { rateOffer } from '../network/offers_api';
 import { BiStar } from 'react-icons/bi';
@@ -40,6 +40,7 @@ interface OfferProps {
 	onOfferClicked: (note: OfferModel) => void;
 	onDeleteOfferClicked: (note: OfferModel) => void;
 	className?: string;
+	onAddFavoriteClick: (note:OfferModel)=>void;
 }
 
 const Offer = ({
@@ -47,6 +48,7 @@ const Offer = ({
 	onDeleteOfferClicked,
 	onOfferClicked,
 	className,
+	onAddFavoriteClick,
 }: OfferProps) => {
 	const { title, username, description, imgURL, price, createdAt, updatedAt, totalrating, ratings} = offer;
 
@@ -87,6 +89,13 @@ const Offer = ({
 						className='text-muted ms-auto'
 						onClick={(e) => {
 							onDeleteOfferClicked(offer);
+							e.stopPropagation();
+						}}
+					/>
+					<MdBookmark
+						className='text-muted ms-auto'
+						onClick={(e) => {
+							onAddFavoriteClick(offer);
 							e.stopPropagation();
 						}}
 					/>

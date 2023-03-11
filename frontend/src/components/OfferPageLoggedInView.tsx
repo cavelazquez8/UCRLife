@@ -6,6 +6,7 @@ import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
 import Categories from './Categories';
+import * as favoriteOfferApi from '../network/favoriteOffer_api'
 import OfferView from "./OfferView"
 import { User } from "../models/user";
 
@@ -88,6 +89,10 @@ const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
 	  const handleCategoryChange = (newText: string) => {
 		setCategory(newText);
 	  };
+	  async function addOfferToFavorites(offer: OfferModel){
+		console.log(offer._id);
+		await favoriteOfferApi.fetchAddOffer(offer._id);
+	  }
 
 	return (
 		<>
@@ -123,6 +128,7 @@ const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
 							className={styles.offer}
 							onOfferClicked={setOfferView}
 							onDeleteOfferClicked={deleteOffer}
+							onAddFavoriteClick={addOfferToFavorites}
 						/>
 					</Col>
 				))}

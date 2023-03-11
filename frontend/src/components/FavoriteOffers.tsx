@@ -8,8 +8,10 @@ import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
 import styleUtils from '../styles/utils.module.css';
+import {favoriteOffer} from "../models/favoriteOffer";
+import * as favoriteOffersApi from '../network/favoriteOffer_api';
 
-const OfferPageLoggedInView = () => {
+const FavoriteOffers = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
 	const [showAddOfferDialoguel, setShowAddOfferDialogue] = useState(false);
 	const [offerToEdit, setOfferToEdit] = useState<OfferModel | null>(null);
@@ -17,16 +19,35 @@ const OfferPageLoggedInView = () => {
 	useEffect(() => {
 		async function loadOffers() {
 			try {
-				const offers = await OffersApi.fetchUserOffers();
-				setOffers(offers);
+				let favoriteOffers: Array<favoriteOffer> = await favoriteOffersApi.fetchFavoriteOffers();
+				let offers:Array<OfferModel> = [];
+				console.log("Size ", favoriteOffers.length);
+				for(var i=0; i<favoriteOffers.length;++i){
+					console.log("Favorite Offer Id ", favoriteOffers.at(i).favoriteOffersId)
+					offers.push(await OffersApi.getOffer(favoriteOffers.at(i).favoriteOffersId));
+				}
+				if(offers.length !== 0){
+					setOffers(offers);
+				}
 			} catch (error) {
 				console.error(error);
-				alert(error);
+				//alert(error);
 			}
 		}
 		loadOffers();
 	}, []);
 
+	async function deleteFavoriteOffer(offer: OfferModel) {
+		try {
+			await favoriteOffersApi.deleteFavorite(offer._id);
+			setOffers(
+				offers.filter((existingOffer) => existingOffer._id !== offer._id)
+			);
+		} catch (error) {
+			console.error(error);
+			alert(error);
+		}
+	}
 	async function deleteOffer(offer: OfferModel) {
 		try {
 			await OffersApi.deleteOffer(offer._id);
@@ -38,18 +59,13 @@ const OfferPageLoggedInView = () => {
 			alert(error);
 		}
 	}
+	
 	async function addOffer(){
 
 	}
 
 	return (
 		<>
-			<Button
-				className={`mb-4 ${styleUtils.Center}`}
-				onClick={() => setShowAddOfferDialogue(true)}
-			>
-				Add New Offer
-			</Button>
 
 			<Row xs={1} md={2} xl={4} className='g-4'>
 				{offers.map((offer) => (
@@ -58,7 +74,7 @@ const OfferPageLoggedInView = () => {
 							offer={offer}
 							className={styles.offer}
 							onOfferClicked={setOfferToEdit}
-							onDeleteOfferClicked={deleteOffer}
+							onDeleteOfferClicked={deleteFavoriteOffer}
 							onAddFavoriteClick={addOffer}
 						/>
 					</Col>
@@ -73,24 +89,8 @@ const OfferPageLoggedInView = () => {
 					}}
 				/>
 			)}
-			{offerToEdit && (
-				<AddOfferDialogue
-					offerToEdit={offerToEdit}
-					onDismiss={() => setOfferToEdit(null)}
-					onOfferSaved={(updatedOffer) => {
-						setOffers(
-							offers.map((exisitngOffer) =>
-								exisitngOffer._id === updatedOffer._id
-									? updatedOffer
-									: exisitngOffer
-							)
-						);
-						setOfferToEdit(null);
-					}}
-				/>
-			)}
 		</>
 	);
 };
 
-export default OfferPageLoggedInView;
+export default FavoriteOffers;

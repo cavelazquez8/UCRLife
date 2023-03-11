@@ -33,7 +33,7 @@ export const getOffer: RequestHandler = async (req, res, next) => {
 
 	try {
 		if (!mongoose.isValidObjectId(offerId)) {
-			throw createHttpError(400, 'Invalid offer id');
+			throw createHttpError(400, 'Invalid offer');
 		}
 
 		const offer = await offerModel.findById(offerId).exec();
@@ -235,7 +235,7 @@ export const rating: RequestHandler = async (req, res, next) => {
 			throw createHttpError(404, 'Offer not found');
 		}
 
-		let alreadyRated = offer.ratings.find((userId) => userId.postedby.toString()=== loggedUserId.toString());
+		const alreadyRated = offer.ratings.find((userId) => userId.postedby.toString()=== loggedUserId.toString());
 		if(alreadyRated){
 			const updateRating = await offerModel.updateOne({
 				ratings: {$elemMatch:alreadyRated}
@@ -263,10 +263,10 @@ export const rating: RequestHandler = async (req, res, next) => {
 			);
 		}
 		const getallratings = await offerModel.findById(offerId);
-		let totalRating = getallratings.ratings.length;
-		let ratingsum = getallratings.ratings.map((item) => item.star).reduce((prev,curr) => prev + curr, 0);
-		let actualRating = Math.round(ratingsum/totalRating);
-		let finalproduct = await offerModel.findByIdAndUpdate(offerId, {
+		const totalRating = getallratings.ratings.length;
+		const ratingsum = getallratings.ratings.map((item) => item.star).reduce((prev,curr) => prev + curr, 0);
+		const actualRating = Math.round(ratingsum/totalRating);
+		const finalproduct = await offerModel.findByIdAndUpdate(offerId, {
 			totalrating: actualRating,
 		}, 
 		{new:true}

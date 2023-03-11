@@ -69,6 +69,10 @@ export async function searchOffer(keyword: string): Promise<Offer[]> {
 export async function deleteOffer(offerId: string) {
 	await fetchData('/api/offers/' + offerId, { method: 'DELETE' });
 }
+export async function getOffer(offerId:string): Promise<Offer>{
+	const response = await fetchData('/api/offers/'+offerId, {method:'GET'});
+	return response.json();
+}
 
 export async function rateOffer(
 	offerId: string,
