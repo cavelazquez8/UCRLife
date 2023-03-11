@@ -73,3 +73,18 @@ export async function getOffer(offerId:string): Promise<Offer>{
 	const response = await fetchData('/api/offers/'+offerId, {method:'GET'});
 	return response.json();
 }
+
+export async function rateOffer(
+	offerId: string,
+	star: number,
+	comment: string,
+): Promise<void> {
+	await fetchData(`/api/offers/rating`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+
+		},
+		body: JSON.stringify({ star, comment, offerId }),
+	});
+}

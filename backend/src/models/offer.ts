@@ -8,6 +8,17 @@ const offerSchema = new Schema({
     imgURL: { type: String },
     price: { type : Number, required : true },
     category: {type: String,},
+    ratings: [
+        {
+            star: {type: Number},
+            comment : {type: String},
+            postedby: {type: Schema.Types.ObjectId, required: true},
+        },
+    ],
+    totalrating:{
+        type: String,
+        default: 0,
+    },
 }, { timestamps: true });
 
 type Offer = InferSchemaType<typeof offerSchema>;

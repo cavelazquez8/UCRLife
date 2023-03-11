@@ -4,7 +4,6 @@ import Message from "./Message";
 import { User } from "../models/user";
 import {useEffect, useRef, useState} from "react"
 import axios from "axios";
-import NavBar from "./NavBar";
 import {io} from "socket.io-client"
 
 interface MessagerPageProps {
@@ -12,63 +11,76 @@ interface MessagerPageProps {
 }
 
 const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
+
     const [conversations, setConversations] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [conversationMessages, setMessages] = useState([]);
     const [newMessage, setnewMessage] = useState("");
-    //const socket = useRef(io("ws://localhost:8900"));
-    const scrollRef = useRef();
+    const [arrivalMessage, setArrivalMessage] = useState(null);
+    const socket = useRef(io("ws://localhost:8900"));
+    const scrollRef = useRef<HTMLDivElement>(null);
 
-    /*useEffect(()=>{
-        socket.current.emit("addUser", userLoggedIn.username);
-    },[userLoggedIn]);*/
+    useEffect(() => {
+        socket.current = io("ws://localhost:8900");
+        socket.current.on("getMessage", (data) => {
+            setArrivalMessage({
+              sender: data.senderId,
+              text: data.text,
+              createdAt: Date.now(),
+            });
+        });
+      }, []);
+
+      useEffect(() => {
+        arrivalMessage &&
+          currentConversation?.users.includes(arrivalMessage.sender) &&
+          setMessages((prev) => [...prev, arrivalMessage]);
+      }, [arrivalMessage, currentConversation]);
 
     useEffect(()=>{
-        const getConversations = async ()=>{
-            /*try {
-                const res = await axios.get('/api/conversation/' + userLoggedIn?._id);
-                console.log("the conversation is:");
-                console.log(res);
-                setConversations(res.data);
-              } catch (err) {
-                console.log(err);
-              }*/
-              axios.get('/api/conversation/' + userLoggedIn?._id).then(response => {
-                console.log("the conversation is:");
-                console.log(response);
-                setConversations(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        };
-        getConversations();
-    },[userLoggedIn]);
+        socket.current.emit("addUser", userLoggedIn._id)
+        socket.current.on("getUsers", users=>{
+            console.log(users);
+        })
+    },[socket, userLoggedIn]);
 
-    /*useEffect(()=>{
+    useEffect(()=>{
+            axios.get('/api/conversation/' + userLoggedIn?._id).then(response => {
+            setConversations(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    },[userLoggedIn?._id]);
+
+    useEffect(()=>{
         const getMessages = async ()=>{
-            const res = await axios.get("/messages/"+currentConversation._id);
+            const res = await axios.get('/api/message/' + currentConversation?._id);
             setMessages(res.data);
         };
         getMessages();
-    }, [currentConversation]);*/
+    }, [currentConversation]);
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
         const message = {
-            sender: userLoggedIn.username,
+            conversationId: currentConversation._id,
+            sender: userLoggedIn._id,
             text: newMessage,
-            conversationId: currentConversation._id
         }
-        const recieverName = currentConversation.users.find(user=> user !== userLoggedIn.username);
-        /*socket.current.emit("sendMessage", {
-            sender: userLoggedIn.username,
-            recieverName,
-            text:newMessage
-        })*/
+        const recieverId = currentConversation.users.find(
+            (user) => user !== userLoggedIn._id);
+
+        socket.current.emit("sendMessage", {
+            senderId: userLoggedIn._id,
+            recieverId,
+            text:newMessage,
+        });
+
         try{
-            const res = await axios.post("/message", message);
-            setMessages([...conversationMessages, res.data])
+            const res = await axios.post('api/message/send', message);
+            setMessages([...conversationMessages, res.data]);
+            setnewMessage("");
         }
         catch(error){
             console.log(error);
@@ -76,42 +88,82 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     };
 
     useEffect(()=>{
-        //scrollRef.current.scrollIntoView({behavior: "smooth"});
+        scrollRef.current?.scrollIntoView({behavior: "smooth"});
     },[conversationMessages])
 
     return (
         <>
         <div className= {style.messenger}>
-            <div className={style.Menu}></div>
+            <div className={style.Menu}> menu 
                 <div className={style.MenuWrapper}>
-                    <input placeholder="Search for people" className={style.MenuInput}/>
+                    <input placeholder="Conversations" className={style.MenuInput}/>
                     {conversations.map((c)=>(
                         <div onClick={()=>setCurrentConversation(c)}>
                             <Conversation conversation={c} loggedInUser={userLoggedIn}/> 
                         </div>
                     ))}
                 </div>
-            <div className={style.conversationSpace}></div>
+            </div>
+            <div className={style.conversationSpace}>
                 <div className={style.conversationSpaceWrapper}>
                     {
                         currentConversation ?
                     (<>
-                    <div className={style.conversationHeader}></div>
+                    <div className={style.conversationHeader}>
                         {conversationMessages.map((m)=>(
                             <div ref = {scrollRef}>
-                            <Message xmessage={(m)} myMessage={m.sender === userLoggedIn.username}/>
+                            <Message xmessage={(m)} myMessage={m.sender === userLoggedIn._id}/>
                             </div>
                         ))}
+                    </div>
                     <div className={style.conversationFloor}>
-                        <textarea className={style.messageInput} placeholder="Message" onChange={(e)=>setnewMessage(e.target.value)} value ={newMessage}></textarea>
+                        <textarea className={style.messageInput} placeholder="Message" 
+                            onChange={(e)=>setnewMessage(e.target.value)} value ={newMessage}
+                            onKeyDown={(e) => {
+                                if (e.keyCode === 13) handleSubmit(e);
+                            }} ></textarea>
+
                         <button className={style.sendButton} onClick={handleSubmit}>Send</button>
                         
-                    </div></>): (<span className = "noConversation">Open a conversation</span>
+                    </div></>): (<span className = {style.noConversationText}>Open a conversation</span>
                     )}
                 </div>
+            </div>
+            <div className={style.usersOnline}>
+                <div className={style.usersOnlineWrapper}>
+                </div>
+            </div>
         </div>
         </>
     )
 }
+
+/* return (
+        <div className={style.messenger}>
+            <div className={style.Menu}>
+                <div className={style.MenuWrapper}>
+                <input placeholder="Search for people" className={style.MenuInput}/>
+                <Conversation />
+                </div>
+            </div>
+            <div className={style.conversationSpace}>
+                <div className={style.conversationSpaceWrapper}>
+                    <div className={style.conversationHeader}>
+                    <Message myMessage = {true}/>
+                    <Message myMessage = {false}/>
+                    </div>
+                    <div className={style.conversationFloor}>
+                    <textarea className={style.messageInput} placeholder="Message" ></textarea>
+                    <button className={style.sendButton}> send </button>
+                    </div>
+                </div>
+            </div>
+            <div className={style.usersOnline}>
+                <div className={style.usersOnlineWrapper}>
+                    online
+                </div>
+            </div>
+        </div>
+    ) */
 
 export default Messenger;

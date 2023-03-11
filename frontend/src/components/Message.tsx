@@ -1,20 +1,21 @@
 import style from "../styles/messagesSent.module.css"; 
-import {User} from "../models/user";
-import format from "timeago"
+import { format } from "timeago.js";
 
 interface MessagePageProps {
-    message:any,
+    xmessage: any,
     myMessage: any
 }
 
-const Message = ({xmessage, myMessage}) =>{
+const Message = ({xmessage, myMessage}: MessagePageProps) =>{
     return (
-        <div className={myMessage ? style.messagemineMessage : style.message}>
-            <div className={style.messageHeader}>
-                <p className={style.messageText}>{xmessage.text}</p>
+        <div className={myMessage ? `${style.message} ${style.own}` : style.message}>
+            <div className={style.messageTop}>
+                <p className={style.messageText}> {xmessage.text} </p> 
             </div>
-            <div className={style.messageFloor}>{format(xmessage.createdAt)}</div>
+             <div className={style.messageBottom}>{format(xmessage.createdAt)} </div> 
         </div>
+
+        
 
     )
 }

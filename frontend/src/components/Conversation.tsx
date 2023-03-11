@@ -9,21 +9,26 @@ interface ConversationPageProps {
 }
 
 const ConversationPage = ({conversation, loggedInUser}: ConversationPageProps) => {
-    const [user,setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(()=>{
-        const hasMessagedUser = conversation.users.find( (u) => u !== loggedInUser._id);
-
-        const getUser = async ()=>{
-            const res = await axios('/api/user/get?userId=' + hasMessagedUser);
-            setUser(res.data);
+        let isMounted = true;
+        async function getUser() {
+            const hasMessagedUser = conversation.users.find( (u) => u !== loggedInUser._id);
+            const res = await axios(`/api/user/get?userId=${hasMessagedUser}`);
+            if (isMounted) {
+                setUser(res.data);
+              }
         };
-        getUser()
-    },[loggedInUser, conversation]);
+        getUser();
+        return () => {
+            isMounted = false; // cleanup function to prevent state updates after unmount
+          };
+    },[conversation.users, loggedInUser._id]);
 
     return(
         <div className = {style.conversation}>
-            <span className={style.userName}> {user.username} </span>
+            { <span className={style.userName}> {user?.username} </span> }
         </div>
     )
 }
