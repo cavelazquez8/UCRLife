@@ -6,9 +6,10 @@ import axios from "axios";
 interface ConversationPageProps {
     loggedInUser: User | null,
     conversation: any
+    current: any
 }
 
-const ConversationPage = ({conversation, loggedInUser}: ConversationPageProps) => {
+const ConversationPage = ({conversation, loggedInUser, current}: ConversationPageProps) => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(()=>{
@@ -27,7 +28,7 @@ const ConversationPage = ({conversation, loggedInUser}: ConversationPageProps) =
     },[conversation.users, loggedInUser._id]);
 
     return(
-        <div className = {style.conversation}>
+        <div className = {current ? `${style.conversation} ${style.current}` : style.conversation}>
             { <span className={style.userName}> {user?.username} </span> }
         </div>
     )

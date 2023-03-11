@@ -6,10 +6,16 @@ import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
 import Categories from './Categories';
+import OfferView from "./OfferView"
+import { User } from "../models/user";
 
-const OfferPageLoggedInView = () => {
+interface OfferPageProps {
+    userLoggedIn: User | null,
+}
+
+const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
-	const [offerToEdit, setOfferToEdit] = useState<OfferModel | null>(null);
+	const [offerView, setOfferView] = useState<OfferModel | null>(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [category, setCategory] = useState('');
 
@@ -115,12 +121,19 @@ const OfferPageLoggedInView = () => {
 						<Offer
 							offer={offer}
 							className={styles.offer}
-							onOfferClicked={setOfferToEdit}
+							onOfferClicked={setOfferView}
 							onDeleteOfferClicked={deleteOffer}
 						/>
 					</Col>
 				))}
 			</Row>
+			{offerView && (
+				<OfferView
+					offerToView={offerView}
+					onDismiss={() => setOfferView(null)}
+					userLoggedIn={userLoggedIn}
+				/>
+			)}
 		</>
 	);
 };

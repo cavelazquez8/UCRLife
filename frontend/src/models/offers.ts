@@ -3,6 +3,7 @@ import {User as UserModel} from '../models/user';
 
 export interface Offer {
     _id: string,
+    userId: string,
     title: string,
     username?: string,
     description?: string,

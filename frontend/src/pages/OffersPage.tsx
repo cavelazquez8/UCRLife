@@ -13,7 +13,7 @@ const OffersPage = ({ userLoggedIn }: OfferPageProps) => {
             <Container>
 				<>
 					{userLoggedIn ? (
-						<OfferPageLoggedInView />
+						<OfferPageLoggedInView userLoggedIn={userLoggedIn}/>
 					) : (
 						<OfferPageLoggedOutView />
 					)}
