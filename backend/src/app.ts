@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import offersRoutes from "./routes/offers";
+import favoriteRoutes from "./routes/favoriteOffers";
 import messagesRoutes from "./routes/message";
 import conversationRoutes from "./routes/conversation";
 import userRoutes from "./routes/user";
@@ -30,6 +31,7 @@ app.use(session({
     }),
 }));
 app.use("/api/offers",  requireAuth, offersRoutes);
+app.use("/api/favorite", favoriteRoutes);
 app.use("/api/message", messagesRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/conversation", conversationRoutes);

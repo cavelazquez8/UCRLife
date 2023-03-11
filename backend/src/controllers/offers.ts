@@ -33,7 +33,7 @@ export const getOffer: RequestHandler = async (req, res, next) => {
 
 	try {
 		if (!mongoose.isValidObjectId(offerId)) {
-			throw createHttpError(400, 'Invalid offer id');
+			throw createHttpError(400, 'Invalid offer');
 		}
 
 		const offer = await offerModel.findById(offerId).exec();

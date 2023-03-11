@@ -38,6 +38,9 @@ const OfferPageLoggedInView = () => {
 			alert(error);
 		}
 	}
+	async function addOffer(){
+
+	}
 
 	return (
 		<>
@@ -56,6 +59,7 @@ const OfferPageLoggedInView = () => {
 							className={styles.offer}
 							onOfferClicked={setOfferToEdit}
 							onDeleteOfferClicked={deleteOffer}
+							onAddFavoriteClick={addOffer}
 						/>
 					</Col>
 				))}

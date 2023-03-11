@@ -2,14 +2,16 @@ import styles from '../styles/Offer.module.css';
 import { Card } from 'react-bootstrap';
 import { Offer as OfferModel } from '../models/offers';
 import { formatDate } from '../utils/formatDate';
-import { MdDelete } from 'react-icons/md';
+import { MdDelete,MdBookmark } from 'react-icons/md';
 import styleUtils from '../styles/utils.module.css';
+import Button from 'react-bootstrap';
 
 interface OfferProps {
 	offer: OfferModel;
 	onOfferClicked: (note: OfferModel) => void;
 	onDeleteOfferClicked: (note: OfferModel) => void;
 	className?: string;
+	onAddFavoriteClick: (note:OfferModel)=>void;
 }
 
 const Offer = ({
@@ -17,6 +19,7 @@ const Offer = ({
 	onDeleteOfferClicked,
 	onOfferClicked,
 	className,
+	onAddFavoriteClick,
 }: OfferProps) => {
 	const { title, username, description, imgURL, price, createdAt, updatedAt } = offer;
 
@@ -40,6 +43,13 @@ const Offer = ({
 						className='text-muted ms-auto'
 						onClick={(e) => {
 							onDeleteOfferClicked(offer);
+							e.stopPropagation();
+						}}
+					/>
+					<MdBookmark
+						className='text-muted ms-auto'
+						onClick={(e) => {
+							onAddFavoriteClick(offer);
 							e.stopPropagation();
 						}}
 					/>
