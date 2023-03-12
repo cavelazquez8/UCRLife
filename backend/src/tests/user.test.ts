@@ -1,15 +1,17 @@
-import { sum, sum1 } from '../controllers/user';
+import {
+	sum,
+	sum1,
+	getVerifiedUser2,
+	login,
+	getUser,
+} from '../controllers/user';
 import { MongoClient } from 'mongodb';
 //import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import UserModel from '../models/user';
+import httpMocks from 'node-mocks-http';
 
-// 	expect(sum()).toBe(0);
-// });
-
-// test('basic again', () => {
-// 	expect(sum(1, 2)).toBe(3);
-// });
+//jest.mock('../controllers/user');
 
 test('basic again2', () => {
 	expect(sum1(4, 4)).toBe(8);
@@ -25,45 +27,7 @@ describe('User', () => {
 	});
 });
 
-// describe('Single MongoMemoryServer', () => {
-// 	let con;
-// 	let mongoServer;
-// 	let url: string;
-// 	let user_email: string;
-// 	beforeAll(async () => {
-// 		// mongoServer = await MongoMemoryServer.create();
-// 		// url = mongoServer.getUri();
-// 		// await mongoose.connect(url);
-
-// 		const uri =
-// 			'mongodb+srv://gruiz031:U0WUKyxlFU1M0hgD@cluster0.cacviy0.mongodb.net/ucr_list?retryWrites=true&w=majority';
-
-// 		const client = new MongoClient(uri);
-// 		client.connect((err) => {
-// 			const collection = client.db('test').collection('devices');
-// 			// perform actions on the collection object
-// 			client.close();
-// 		});
-// 	});
-
-// 	afterAll(async () => {
-// 		if (con) {
-// 			await con.close();
-// 		}
-// 		if (mongoServer) {
-// 			await mongoServer.stop();
-// 		}
-// 	});
-// 	it('Test getverified function', async (done) => {
-// 		expect(sum1(4, 4)).toBe(8);
-// 		const user = await UserModel.findById('640674ce6b8e996c9ad00626');
-// 		user_email = user.email;
-// 		expect(user_email).toBe('skang121@ucr.edu');
-// 		done();
-// 	});
-// });
-
-describe('insert', () => {
+describe('User Test', () => {
 	let connection;
 	let db;
 	const uri =
@@ -78,7 +42,7 @@ describe('insert', () => {
 		await connection.close();
 	});
 
-	it('should insert a doc into collection', async () => {
+	it('Sign Up Test', async () => {
 		const users = db.collection('users');
 
 		const mockUser = {
@@ -91,5 +55,26 @@ describe('insert', () => {
 
 		const insertedUser = await users.findOne({ _id: 'some-user-id1234' });
 		expect(insertedUser).toEqual(mockUser);
+		await users.deleteOne({ _id: 'some-user-id1234' });
+	});
+
+	it('Get User Test', async () => {
+		const request = httpMocks.createRequest({
+			query: {
+				userId: 'some-user-id1234',
+			},
+		});
+		const response = httpMocks.createResponse();
+		const next = jest.fn();
+		getUser(request, response, next);
+		console.log(response);
+		expect(response.statusCode).toBe(200);
+
+		// const users = db.collection('users');
+		// const userId = 'some-user-id1234';
+		// console.log('getting user');
+
+		// const user = await users.findOne({ _id: 'some-user-id1234' });
+		// expect(user.username).toBe('abc34');
 	});
 });
