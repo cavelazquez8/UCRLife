@@ -1,6 +1,4 @@
 
-import {User as UserModel} from '../models/user';
-
 export interface Offer {
     _id: string,
     userId: string,
@@ -14,7 +12,8 @@ export interface Offer {
     ratings:  {
         star: number;
         comment: string;
-        postedby: UserModel;
+        postedby: string;
+        postUsername: string,
       }[],
     createdAt: string,
     updatedAt: string,

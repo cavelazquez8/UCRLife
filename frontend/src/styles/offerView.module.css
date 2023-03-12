@@ -5,3 +5,37 @@
     object-fit: cover;
     /*margin-right: 10px;*/
   }
+
+  .commentPostedBy {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 5px;
+  }
+  
+  .commentContainer {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .commentStars {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .commentStars i {
+    margin: 0 0.25rem;
+  }
+  
+  .numRatings {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #767676;
+  }
+  .commentText {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
