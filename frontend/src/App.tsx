@@ -12,6 +12,7 @@ import MessagePage from './pages/MessagePage';
 import UserOfferPage from './pages/UserOffersPage';
 import FavoriteOffersPage from './pages/FavoriteOffersPage';
 import styles from './styles/App.module.css';
+import Footer from './components/Footer';
 
 function App() {
 	const [userLoggedIn, setLoggedInUser] = useState<User | null>(null);
@@ -91,6 +92,7 @@ function App() {
 					}}
 				/>
 			)}
+		<Footer/>
 		</div>
 		</BrowserRouter>
 	);
