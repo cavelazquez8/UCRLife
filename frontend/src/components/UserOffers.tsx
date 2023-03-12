@@ -8,6 +8,7 @@ import { Offer as OfferModel } from '../models/offers';
 import * as OffersApi from '../network/offers_api';
 import styles from '../styles/OfferPage.module.css';
 import styleUtils from '../styles/utils.module.css';
+import { FaPlus } from "react-icons/fa";
 
 const OfferPageLoggedInView = () => {
 	const [offers, setOffers] = useState<OfferModel[]>([]);
@@ -45,11 +46,16 @@ const OfferPageLoggedInView = () => {
 	return (
 		<>
 			<Button
-				className={`mb-4 ${styleUtils.Center}`}
-				onClick={() => setShowAddOfferDialogue(true)}
-			>
+				className={`mb-4 ${styleUtils.Center}  ${styleUtils.flexCenter}`}
+				onClick={() => setShowAddOfferDialogue(true)}>
+				<FaPlus />
 				Add New Offer
 			</Button>
+
+			{offers.length > 0
+                        ? <></>
+                        : <p>You heven't created any offers yet</p>
+            }
 
 			<Row xs={1} md={2} xl={4} className='g-4'>
 				{offers.map((offer) => (
@@ -60,6 +66,7 @@ const OfferPageLoggedInView = () => {
 							onOfferClicked={setOfferToEdit}
 							onDeleteOfferClicked={deleteOffer}
 							onAddFavoriteClick={addOffer}
+							ableToDelete={true}
 						/>
 					</Col>
 				))}

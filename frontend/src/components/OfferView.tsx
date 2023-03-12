@@ -117,14 +117,32 @@ const OfferView = ({offerToView, onDismiss, userLoggedIn} : OfferViewProps ) => 
 				<Modal.Title> {offerToView.title} &nbsp; ${offerToView.price} </Modal.Title>
 			</Modal.Header>
 
-            <Modal.Body>
-            <img
-                className={styles.Img}
-                src={offerToView.imgURL}
-                alt=""
-            />
+            <Modal.Body className={styles.modal}>
 
-<div>
+            <div className={styles.imagecontainer}>
+                <img src={offerToView.imgURL} alt=""/>
+            </div>
+			
+			<div className='mb-2 text-muted'>
+			Created by:&nbsp;{offerToView.username}
+			</div>
+
+			<div className={styles.commentStars}>
+						{[...Array(Math.floor(offerToView.totalrating))].map((_, index) => (
+       			 		<AiFillStar key={index} style={{ color: 'blue' }} />
+					))}
+    				{[...Array(5 - Math.floor(offerToView.totalrating))].map((_, index) => (
+        				<BiStar key={index} />
+    				))}     <span className={styles.numRatings}>
+					<span style={{ color: 'blue' }}>({offerToView.ratings.length})</span>
+					</span>
+			</div >
+
+			<div className={styles.cardText}>
+				{offerToView.description}
+			</div>
+
+				<div>
 					<Form.Control
 						as='select'
 						value={rating}
@@ -177,7 +195,7 @@ const OfferView = ({offerToView, onDismiss, userLoggedIn} : OfferViewProps ) => 
                 {/* prevent self message */}
             {ownOffer ? ( <></>) : (
                     <Button type='submit' onClick={handleClick}>
-                        Send Message
+                        Message {offerToView.username}
                     </Button> ) 
             }
 			</Modal.Footer>

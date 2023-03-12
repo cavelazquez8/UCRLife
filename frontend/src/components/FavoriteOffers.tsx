@@ -76,6 +76,7 @@ const FavoriteOffers = () => {
 							onOfferClicked={setOfferToEdit}
 							onDeleteOfferClicked={deleteFavoriteOffer}
 							onAddFavoriteClick={addOffer}
+							ableToDelete={true}
 						/>
 					</Col>
 				))}

@@ -13,6 +13,7 @@ interface OfferProps {
 	onDeleteOfferClicked: (note: OfferModel) => void;
 	className?: string;
 	onAddFavoriteClick: (note:OfferModel)=>void;
+	ableToDelete: any,
 }
 
 const Offer = ({
@@ -21,6 +22,7 @@ const Offer = ({
 	onOfferClicked,
 	className,
 	onAddFavoriteClick,
+	ableToDelete,
 }: OfferProps) => {
 	const { title, username, description, imgURL, price, createdAt, updatedAt, totalrating, ratings} = offer;
 
@@ -35,24 +37,27 @@ const Offer = ({
 			className={`${styles.offerCard} ${className}`}
 			onClick={() => onOfferClicked(offer)}
 		>
-			<Card.Img className={styles.cardImg} variant='top' src={imgURL} />
+			<div className={styles.imagecontainer}>
+			<Card.Img variant='top' src={imgURL} />
+			</div>
 			<Card.Body className={styles.cardBody}>
 				<Card.Title className={styleUtils.flexCenter}>
 					{title} &nbsp; ${price}
-					<MdDelete
+
+					{ableToDelete ? ( <MdDelete title="Delete"
 						className='text-muted ms-auto'
 						onClick={(e) => {
 							onDeleteOfferClicked(offer);
 							e.stopPropagation();
 						}}
-					/>
-					<MdBookmark
+					/> ) : ( <MdBookmark title="Add to favorites"
 						className='text-muted ms-auto'
 						onClick={(e) => {
 							onAddFavoriteClick(offer);
 							e.stopPropagation();
 						}}
-					/>
+					/> ) 
+            }		
 				</Card.Title>
 				<Card.Subtitle className='mb-2 text-muted'>
 					Created by:&nbsp;{username}
@@ -66,7 +71,7 @@ const Offer = ({
     				))}     <span className={styles.numRatings}>
 					<span style={{ color: 'blue' }}>({ratings.length})</span>
 					</span>
-						</div>
+				</div>
 				<Card.Text className={styles.cardText}>{description}</Card.Text>
 			
 		</Card.Body>
