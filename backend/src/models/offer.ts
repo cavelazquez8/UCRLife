@@ -13,6 +13,7 @@ const offerSchema = new Schema({
             star: {type: Number},
             comment : {type: String},
             postedby: {type: Schema.Types.ObjectId, required: true},
+            postUsername: { type: String, required: true },
         },
     ],
     totalrating:{

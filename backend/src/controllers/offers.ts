@@ -223,6 +223,9 @@ export const rating: RequestHandler = async (req, res, next) => {
 	const star = req.body.star;
 	const comment = req.body.comment;
 	const offerId = req.body.offerId;
+	const username = req.body.postUsername;
+	console.log("username: ")
+	console.log(username)
 	try {
 		
 		if (!mongoose.isValidObjectId(offerId)) {
@@ -241,7 +244,7 @@ export const rating: RequestHandler = async (req, res, next) => {
 				ratings: {$elemMatch:alreadyRated}
 			}, 
 			{
-				$set: {"ratings.$.star":star, "ratings.$.comment": comment},
+				$set: {"ratings.$.star":star, "ratings.$.comment": comment, "ratings.$.postUsername": username},
 			},
 			{
 				new: true,
@@ -254,6 +257,7 @@ export const rating: RequestHandler = async (req, res, next) => {
 						star: star,
 						comment: comment,
 						postedby: loggedUserId,
+						postUsername: username,
 					},
 				},
 			},

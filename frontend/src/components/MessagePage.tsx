@@ -23,7 +23,7 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     const [conversationMessages, setMessages] = useState([]);
     const [newMessage, setnewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
-    const socket = useRef(io("ws://localhost:8900"));
+    const socket = useRef(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const conver = conversations.find( (convs) => convs._id === id );
@@ -42,7 +42,7 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
               createdAt: Date.now(),
             });
         });
-      }, []);
+      }, [socket]);
 
     useEffect(() => {
         arrivalMessage &&
@@ -53,7 +53,7 @@ const Messenger = ({ userLoggedIn }: MessagerPageProps) => {
     useEffect(()=>{
         socket.current.emit("addUser", userLoggedIn._id)
         socket.current.on("getUsers", users=>{
-            console.log(users);
+            //console.log(users);
         })
     },[socket, userLoggedIn]);
 
