@@ -90,7 +90,7 @@ export const createOffer: RequestHandler<
 			price: price,
 			category: category,
 		});
-		res.status(201).json(newOffer);
+		res.sendStatus(201).json(newOffer);
 	} catch (error) {
 		next(error);
 	}
@@ -216,8 +216,6 @@ export const searchOffer: RequestHandler = async (req, res, next) => {
 	}
 };
 
-
-
 export const rating: RequestHandler = async (req, res, next) => {
 	const loggedUserId = req.session.userID;
 	const star = req.body.star;
@@ -227,7 +225,6 @@ export const rating: RequestHandler = async (req, res, next) => {
 	console.log("username: ")
 	console.log(username)
 	try {
-		
 		if (!mongoose.isValidObjectId(offerId)) {
 			throw createHttpError(400, 'Invalid offer id');
 		}
@@ -260,21 +257,23 @@ export const rating: RequestHandler = async (req, res, next) => {
 						postUsername: username,
 					},
 				},
-			},
-			{
-				new: true,
-			}
+				{
+					new: true,
+				}
 			);
 		}
 		const getallratings = await offerModel.findById(offerId);
 		const totalRating = getallratings.ratings.length;
-		const ratingsum = getallratings.ratings.map((item) => item.star).reduce((prev,curr) => prev + curr, 0);
-		const actualRating = Math.round(ratingsum/totalRating);
-		const finalproduct = await offerModel.findByIdAndUpdate(offerId, {
-			totalrating: actualRating,
-		}, 
-		{new:true}
-		
+		const ratingsum = getallratings.ratings
+			.map((item) => item.star)
+			.reduce((prev, curr) => prev + curr, 0);
+		const actualRating = Math.round(ratingsum / totalRating);
+		const finalproduct = await offerModel.findByIdAndUpdate(
+			offerId,
+			{
+				totalrating: actualRating,
+			},
+			{ new: true }
 		);
 		res.json(finalproduct);
 	} catch (error) {
