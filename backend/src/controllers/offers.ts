@@ -257,11 +257,15 @@ export const rating: RequestHandler = async (req, res, next) => {
 						postUsername: username,
 					},
 				},
+			},
 				{
 					new: true,
 				}
 			);
 		}
+	
+
+		
 		const getallratings = await offerModel.findById(offerId);
 		const totalRating = getallratings.ratings.length;
 		const ratingsum = getallratings.ratings
