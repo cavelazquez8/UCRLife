@@ -78,6 +78,7 @@ export async function rateOffer(
 	offerId: string,
 	star: number,
 	comment: string,
+	postUsername: string,
 ): Promise<void> {
 	await fetchData(`/api/offers/rating`, {
 		method: 'PUT',
@@ -85,6 +86,6 @@ export async function rateOffer(
 			'Content-Type': 'application/json',
 
 		},
-		body: JSON.stringify({ star, comment, offerId }),
+		body: JSON.stringify({ star, comment, offerId, postUsername }),
 	});
 }

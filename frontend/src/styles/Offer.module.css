@@ -2,8 +2,21 @@
     margin: 4px;
 }
 
-.cardImg{
-    height: 200px;
+.imagecontainer {
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+  margin-top: 5px;
+}
+
+
+.imagecontainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 
@@ -11,6 +24,10 @@
     white-space: pre-line;
 }
 
+.cardBody{
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, #000 60%, transparent);
+}
 
 .commentPostedBy {
     font-size: 14px;

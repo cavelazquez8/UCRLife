@@ -3,7 +3,7 @@ import { format } from "timeago.js";
 
 interface MessagePageProps {
     xmessage: any,
-    myMessage: any
+    myMessage: any,
 }
 
 const Message = ({xmessage, myMessage}: MessagePageProps) =>{

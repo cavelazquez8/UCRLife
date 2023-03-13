@@ -1,7 +1,67 @@
-.Img {
-    width: 320px;
-    height: 320px;
-    /*border-radius: 50%;
-    object-fit: cover;
-    /*margin-right: 10px;*/
+.modal {
+  max-height: calc(100vh - 200px); /* Set the maximum height to the height of the viewport minus 100px */
+  overflow-y: auto; /* Add a vertical scroll bar when there is overflow */
+}
+
+.imagecontainer {
+  width: 320px;
+  height: 320px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+  margin-left: 70px;
+  margin-bottom: 20px;
+}
+
+.imagecontainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+
+.cardText{
+  white-space: pre-line;
+  height: 95px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+  .commentPostedBy {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 5px;
+  }
+  
+  .commentContainer {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .commentStars {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .commentStars i {
+    margin: 0 0.25rem;
+  }
+  
+  .numRatings {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #767676;
+  }
+  .commentText {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6c757d;
   }

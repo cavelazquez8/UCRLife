@@ -9,7 +9,7 @@ interface directionProp {
 
 const Container = styled.div`
 	width: 100%;
-	height: 80vh;
+	height: 100vh;
 	overflow: hidden;
 
 `;
@@ -45,7 +45,7 @@ const ImgContainer = styled.div`
 	flex: 1;
 `;
 const Image = styled.img`
-	height: 100%
+	height: 110%
 `;
 const InfoContainer = styled.div`
     flex: 1;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import Offer from '../components/offer';
@@ -86,8 +86,14 @@ const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
 		categoryHandler();
 	  }, [category, categoryHandler]);
 
+	  const targetRef = useRef<HTMLDivElement>(null);
+
 	  const handleCategoryChange = (newText: string) => {
 		setCategory(newText);
+		if (targetRef.current) {
+			targetRef.current.scrollIntoView({ behavior: 'smooth' });
+		  }
+
 	  };
 	  async function addOfferToFavorites(offer: OfferModel){
 		console.log(offer._id);
@@ -97,6 +103,8 @@ const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
 	return (
 		<>
 		<Categories onCategoryChange={handleCategoryChange}/>
+
+		<div className= {styles.searchContainer} >
 			<input
 				type='search'
 				value={searchTerm}
@@ -119,8 +127,14 @@ const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
                             <option value="misc">Misc</option>
                             </select>
                     </label>
+		</div>
 
-			<Row xs={1} md={2} xl={4} className='g-4'>
+					{offers.length > 0
+                        ? <></>
+                        : <p>No results</p>
+            		}
+
+			<Row xs={1} md={2} xl={4} className='g-4' ref={targetRef}>
 				{offers.map((offer) => (
 					<Col key={offer._id}>
 						<Offer
@@ -129,6 +143,7 @@ const OfferPageLoggedInView = ({userLoggedIn}: OfferPageProps) => {
 							onOfferClicked={setOfferView}
 							onDeleteOfferClicked={deleteOffer}
 							onAddFavoriteClick={addOfferToFavorites}
+							ableToDelete={false}
 						/>
 					</Col>
 				))}
