@@ -11,22 +11,6 @@ import mongoose from 'mongoose';
 import UserModel from '../models/user';
 import httpMocks from 'node-mocks-http';
 
-//jest.mock('../controllers/user');
-
-test('basic again2', () => {
-	expect(sum1(4, 4)).toBe(8);
-});
-
-test('basic again3', () => {
-	expect(sum1(4, 4)).toBe(8);
-});
-
-describe('User', () => {
-	it('Test getverified function', () => {
-		expect(sum1(4, 4)).toBe(8);
-	});
-});
-
 describe('User Test', () => {
 	let connection;
 	let db;
@@ -59,22 +43,36 @@ describe('User Test', () => {
 	});
 
 	it('Get User Test', async () => {
+		/*
 		const request = httpMocks.createRequest({
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			hostname: 'localhost:3000',
+			url: '/get',
 			query: {
-				userId: 'some-user-id1234',
+				userId: '640bb163f08d68b4e2f38c37',
 			},
 		});
+		console.log(request);
+
 		const response = httpMocks.createResponse();
 		const next = jest.fn();
-		getUser(request, response, next);
+		await getUser(request, response, next);
 		console.log(response);
+		console.log(request);
 		expect(response.statusCode).toBe(200);
+		expect(next).not.toBeCalled();
+        */
 
-		// const users = db.collection('users');
-		// const userId = 'some-user-id1234';
+		const users = db.collection('users');
+		const userId = new mongoose.Types.ObjectId('640bb163f08d68b4e2f38c37');
 		// console.log('getting user');
 
-		// const user = await users.findOne({ _id: 'some-user-id1234' });
-		// expect(user.username).toBe('abc34');
+		const user = await users.findOne({ _id: userId });
+		// console.log(user);
+
+		expect(user.username).toBe('ToanBao');
 	});
 });

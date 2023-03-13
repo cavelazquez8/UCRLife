@@ -229,9 +229,14 @@ export const logout: RequestHandler = (req, res, next) => {
 export const getUser: RequestHandler = async (req, res, next) => {
 	const userId = req.query.userId;
 	console.log('getting user');
+	console.log(req);
+	console.log('1');
+
 	try {
 		const user = await UserModel.findById(userId).exec();
-		res.status(200).json(user);
+		console.log('Get USer');
+
+		res.status(201).json(user);
 	} catch (error) {
 		next(error);
 	}
