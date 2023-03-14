@@ -90,7 +90,7 @@ export const createOffer: RequestHandler<
 			price: price,
 			category: category,
 		});
-		res.sendStatus(201).json(newOffer);
+		res.status(201).json(newOffer);
 	} catch (error) {
 		next(error);
 	}
@@ -177,7 +177,7 @@ export const deleteOffer: RequestHandler = async (req, res, next) => {
 
 		await offer.remove();
 
-		res.sendStatus(204);
+		res.status(204);
 	} catch (error) {
 		next(error);
 	}
