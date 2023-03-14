@@ -72,7 +72,7 @@ const Slider = () => {
 						<Image src='https://www.highlandernews.org/wp-content/uploads/news.top25uni.RPoon_.jpg' />
 					</ImgContainer>
 					<InfoContainer>
-						<Title>UCRLIFE</Title>
+						<Title>UCRList</Title>
 						<Desc>
 							PRODUCTS ONLY FROM VERIFIED UCR
 							STUDENTS.

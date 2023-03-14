@@ -89,7 +89,7 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>UCRLife</Logo>
+        <Logo>UCRList</Logo>
         <Desc>
           CS180 Project made by team C.K.L.G.S.T comprised of Carlos Alberto Velazquez Medina,
             Kenneth Salce, Seokha Kang, Gonzalo Ruiz, Toan Bao
